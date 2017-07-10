@@ -2,9 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import {CharacterSheet} from '../pages/character-sheet/character-sheet';
+import { LoginPage } from '../pages/login/login';
 
 @Component({
   templateUrl: 'app.html'
@@ -15,18 +18,35 @@ export class MyApp {
   rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
+  isBrowser:any;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform,public afAuth:AngularFireAuth, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'List', component: ListPage },
+      { title: 'LoginPage', component: LoginPage },
+      { title: 'ChacarterSheet', component: CharacterSheet }
     ];
-
-  }
-
+    const authObserver = afAuth.authState.subscribe( user => {
+      if (user) {
+        this.rootPage = HomePage;
+        authObserver.unsubscribe();
+      } else {
+        this.rootPage = LoginPage;
+        authObserver.unsubscribe();
+      }
+    });
+    var deviceInformation = platform.getActiveElement();
+if (deviceInformation.localName === "browser"){
+    this.isBrowser = true;
+}else{
+    this.isBrowser = false;
+}
+}
+  
   initializeApp() {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -34,6 +54,11 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  logout(){
+    this.afAuth.auth.signOut();
+    this.nav.setRoot(LoginPage);
   }
 
   openPage(page) {

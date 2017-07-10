@@ -1,0 +1,438 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content ng-class="{ isBrowserView : isBrowser== true } ">
+<br>
+<form  overflow-scroll="true" class="form conteiner "> 
+<div class="container">
+
+	<div class="com-md-12 row">
+		<input class="col-md-3 mr-5" type="string" [ngModelOptions]="{standalone: true}" [(ngModel)]="NAME" placeholder="Character Name">
+		<label class="ml-5 mt-2 mr-2 mt-1">Load Character</label>
+		<select class="col-md-2 mr-5 mt-1 " (change)="loadCharacter(SELECTED_CHAR)" [(ngModel)]="SELECTED_CHAR" [ngModelOptions]="{standalone: true}" >
+		<option *ngFor="let character of characters | async" [ngValue]="character" > 
+				{{character.name}}
+		</option>
+		</select>
+		<button class="ml-5 btn btn-danger mt-1" (click)="resetSheet()">New Character Sheet</button>
+	</div>
+<!--ROW CONTAINS PERCEPTION, HALTH, MOVEMENT AND STATS-->
+	<div class="row mt-2 form-group">
+		<div class=" pull-left col-md-6 pl-0 "> 
+		 <h4>Perception</h4>
+		 <table>
+		  <thead class="p-2">
+			  	<td>Hability(5)</td>
+			  	<td>Bonus Items</td>
+			  	<td>Reductions</td>
+			  	<td>TOTAL</td>
+		  </thead>
+		  <tbody>
+			  <tr>
+			  	<td><input   type="number" step="1" (ngModelChange)="!setStats(PERCEPTION.PR,0,PERCEPTION.BPR,0,PERCEPTION.RPR,6)" [ngModelOptions]="{standalone: true}" [(ngModel)]="PERCEPTION.PR" min="0" max="100"></td>
+			  	<td><input   type="number" step="1" (ngModelChange)="!setStats(PERCEPTION.PR,0,PERCEPTION.BPR,0,PERCEPTION.RPR,6)" [ngModelOptions]="{standalone: true}" [(ngModel)]="PERCEPTION.BPR" min="0"  max="100"></td>
+			    <td><input   type="number" step="1" (ngModelChange)="!setStats(PERCEPTION.PR,0,PERCEPTION.BPR,0,PERCEPTION.RPR,6)" [ngModelOptions]="{standalone: true}" [(ngModel)]="PERCEPTION.RPR" min="0"  max="100"></td>
+			 	<td>{{result[6].ability5 - result[6].reduction + result[6].bonusMix}} PER </td>
+			  </tr>
+		  </tbody>
+		  </table>
+		</div>
+		<div class=" p-0">
+		 <h4>Health</h4>
+		 <table class="pull-rigth">
+		  <thead>
+			  	<td>Hability(5)</td>
+			  	<td>Bonus Items</td>
+			  	<td>Reductions</td>
+			  	<td>TOTAL</td>
+		  </thead>
+		  <tbody>
+			  <tr>
+			  	<td><input     type="number" step="1" (ngModelChange)="!setStats(HEALTH.HP,0,HEALTH.BHP,0,HEALTH.RHP,5)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="HEALTH.HP"  min="0" max="100"></td>
+			  	<td><input     type="number" step="1" (ngModelChange)="!setStats(HEALTH.HP,0,HEALTH.BHP,0,HEALTH.RHP,5)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="HEALTH.BHP" min="0" max="100"></td>
+			    <td><input     type="number" step="1" (ngModelChange)="!setStats(HEALTH.HP,0,HEALTH.BHP,0,HEALTH.RHP,5)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="HEALTH.RHP" min="0" max="100"></td>
+			  	<td>{{result[5].ability5 - result[5].reduction + result[5].bonusMix + result[5].stat}} HP </td>
+			  </tr>
+		  </tbody>
+		  </table>
+		</div>
+		<div class="row col-md-12">
+		<div class="pull-left">
+		 <h4>Movement</h4>
+			 <table>
+			  <thead>
+					<td>Type</td>
+				  	<td>Hability (5)</td>
+				  	<td>Bonus Items</td>
+				  	<td>Reductions</td>
+				  	<td>TOTAL</td>
+				  	<td></td>
+			  </thead>
+			  <tbody>
+				  <tr>
+				  	<td>No Armour</td>
+				  	<td><input   [disabled]="!armourType('NA')" (ngModelChange)="!setStats(MOVEMENT.NA,0,MOVEMENT.BNA,0,MOVEMENT.RNA,0)" type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.NA" min="0" max="10" ></td>
+				  	<td><input   [disabled]="!armourType('NA')" (ngModelChange)="!setStats(MOVEMENT.NA,0,MOVEMENT.BNA,0,MOVEMENT.RNA,0)" type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.BNA" min="0"  max="100" ></td>
+				    <td><input   [disabled]="!armourType('NA')" (ngModelChange)="!setStats(MOVEMENT.NA,0,MOVEMENT.BNA,0,MOVEMENT.RNA,0)" type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.RNA" min="0"  max="100" ></td>
+					<td>{{result[0].ability5 - result[0].reduction + result[0].bonusMix + result[0].stat}} MM </td>
+				  	<td><button class="btn btn-default btn-xs" (click)="!setEquipedArmour('NA')">select</button></td>
+				  </tr>
+				  <tr>
+				  	<td>Leather</td>
+				  	<td><input   [disabled]="!armourType('LE')" (ngModelChange)="!setStats(MOVEMENT.LE,0,MOVEMENT.BLE,0,MOVEMENT.RLE,1)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.LE" min="0" max="15"></td>
+				  	<td><input   [disabled]="!armourType('LE')" (ngModelChange)="!setStats(MOVEMENT.LE,0,MOVEMENT.BLE,0,MOVEMENT.RLE,1)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.BLE" min="0"  max="100"></td>
+				  	<td><input   [disabled]="!armourType('LE')" (ngModelChange)="!setStats(MOVEMENT.LE,0,MOVEMENT.BLE,0,MOVEMENT.RLE,1)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.RLE" min="0"  max="100"></td>
+					<td>{{result[1].ability5 - result[1].reduction + result[1].bonusMix + result[1].stat -15}} MM </td>
+				  	<td><button class="btn btn-default btn-xs" (click)="!setEquipedArmour('LE')">select</button></td>
+				  </tr>
+				  <tr>
+				  	<td>Hardened Leather</td>
+				  	<td><input   [disabled]="!armourType('HL')" (ngModelChange)="!setStats(MOVEMENT.HL,0,MOVEMENT.BHL,0,MOVEMENT.RHL,2)"   type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.HL" min="0" max="25"></td>
+				  	<td><input   [disabled]="!armourType('HL')" (ngModelChange)="!setStats(MOVEMENT.HL,0,MOVEMENT.BHL,0,MOVEMENT.RHL,2)"   type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.BHL" min="0"  max="100"></td>
+				  	<td><input   [disabled]="!armourType('HL')" (ngModelChange)="!setStats(MOVEMENT.HL,0,MOVEMENT.BHL,0,MOVEMENT.RHL,2)"   type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.RHL" min="0"  max="100"></td>
+					  <td>{{result[2].ability5 - result[2].reduction + result[2].bonusMix + result[2].stat - 30}} MM </td>
+				  	<td><button class="btn btn-default btn-xs" (click)="!setEquipedArmour('HL')">select</button></td>
+				  </tr>
+				  <tr>
+				  	<td>Chain Mail</td>
+				  	<td><input   [disabled]="!armourType('CM')" (ngModelChange)="!setStats(MOVEMENT.CM,0,MOVEMENT.BCM,0,MOVEMENT.RCM,3)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.CM" min="0"  max="40"></td>
+				  	<td><input   [disabled]="!armourType('CM')" (ngModelChange)="!setStats(MOVEMENT.CM,0,MOVEMENT.BCM,0,MOVEMENT.RCM,3)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.BCM" min="0"  max="100"></td>
+				  	<td><input   [disabled]="!armourType('CM')" (ngModelChange)="!setStats(MOVEMENT.CM,0,MOVEMENT.BCM,0,MOVEMENT.RCM,3)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.RCM" min="0"  max="100"></td>
+					  <td>{{result[3].ability5 - result[3].reduction + result[3].bonusMix + result[3].stat -45}} MM </td>
+				  	<td><button class="btn btn-default btn-xs" (click)="!setEquipedArmour('CM')">select</button></td>
+				  </tr>
+				  <tr>
+				  	<td>Plate</td>
+				  	<td><input   [disabled]="!armourType('PL')" (ngModelChange)="!setStats(MOVEMENT.PL,0,MOVEMENT.BPL,0,MOVEMENT.RPL,4)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.PL" min="0" max="50"></td>
+				  	<td><input   [disabled]="!armourType('PL')" (ngModelChange)="!setStats(MOVEMENT.PL,0,MOVEMENT.BPL,0,MOVEMENT.RPL,4)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.BPL" min="0"  max="100"></td>
+				  	<td><input   [disabled]="!armourType('PL')" (ngModelChange)="!setStats(MOVEMENT.PL,0,MOVEMENT.BPL,0,MOVEMENT.RPL,4)"  type="number" step="1" [ngModelOptions]="{standalone: true}" [(ngModel)]="MOVEMENT.RPL" min="0"  max="100"></td>
+					  <td>{{result[4].ability5 - result[4].reduction + result[4].bonusMix + result[4].stat -60}} MM </td>
+				  	<td><button class="btn btn-default btn-xs"	 (click)="!setEquipedArmour('PL')">select</button></td>
+				  </tr>
+			  </tbody>
+			</table>
+		</div>
+		  <div class="col col-md-2 col-md-offset-3 pull-rigth">
+			<h4>Stats</h4>
+			<table>
+			  <tr>
+			    <td >Inteligence</td>
+			    <td ><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.INT,'INT')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.INT" min="0"  max="100"></td>
+			  </tr>
+			  <tr >
+			    <td>Strength</td>
+			    <td><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.STR,'STR')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.STR" min="0"  max="100"></td>
+			  </tr>
+			  <tr >
+			    <td>Agility</td>
+			    <td><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.AGI,'AGI')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.AGI" min="0"  max="100"></td>
+			  </tr>
+			  <tr >
+			    <td>Consitution</td>
+			    <td><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.CON,'CON')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.CON" min="0"  max="100"></td>
+			  </tr>
+			  <tr >
+			    <td>Intuition</td>
+			    <td><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.I,'I')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.I" min="0"  max="100"></td>
+			  </tr>
+			  <tr >
+			    <td>Precense</td>
+			    <td><input   class = "col-md-12" type="number" step="5" (ngModelChange)="!updateResutls(STATS.PRE,'PRE')" [ngModelOptions]="{standalone: true}" [(ngModel)]="STATS.PRE" min="0"  max="100"></td>
+			  </tr>
+			  </table>
+		</div>
+		</div>
+	</div>
+  <!--ROW CONTAINS WEAPONS AND GENERAL ABILITIES-->
+	<div class="row mt-2 form-group">
+		<div class="pull-left ">
+			<h4>Weapons</h4>
+				<table>
+					<thead>
+						<td>Type</td>
+					  	<td>Hability (5)</td>
+					  	<td>Hability (2)</td>
+					  	<td>Bonus Mix</td>
+					  	<td>Bonus Items</td>
+					  	<td>Reductions</td>
+					  	<td>TOTAL</td>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Edge</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.ED,WEAPONS.ED2,WEAPONS.BMED,WEAPONS.BIED,WEAPONS.RED,7)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.ED" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.ED,WEAPONS.ED2,WEAPONS.BMED,WEAPONS.BIED,WEAPONS.RED,7)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.ED2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.ED,WEAPONS.ED2,WEAPONS.BMED,WEAPONS.BIED,WEAPONS.RED,7)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMED" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.ED,WEAPONS.ED2,WEAPONS.BMED,WEAPONS.BIED,WEAPONS.RED,7)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BIED" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.ED,WEAPONS.ED2,WEAPONS.BMED,WEAPONS.BIED,WEAPONS.RED,7)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RED" min="0"  max="100"></td>
+							  <td>{{result[7].ability5 + result[7].ability2 + result[7].bonusItem -  result[7].reduction + result[7].bonusMix + result[7].stat}} BO </td>
+						</tr>
+						<tr>
+							<td>Blunt</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.BL,WEAPONS.BL2,WEAPONS.BMBL,WEAPONS.BIBL,WEAPONS.RBL,8)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BL" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.BL,WEAPONS.BL2,WEAPONS.BMBL,WEAPONS.BIBL,WEAPONS.RBL,8)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BL2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.BL,WEAPONS.BL2,WEAPONS.BMBL,WEAPONS.BIBL,WEAPONS.RBL,8)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMBL" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.BL,WEAPONS.BL2,WEAPONS.BMBL,WEAPONS.BIBL,WEAPONS.RBL,8)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BIBL" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.BL,WEAPONS.BL2,WEAPONS.BMBL,WEAPONS.BIBL,WEAPONS.RBL,8)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RBL" min="0"  max="100"></td>
+						  	<td>{{result[8].ability5 + result[8].ability2 + result[8].bonusItem -  result[8].reduction + result[8].bonusMix + result[8].stat}} BO </td>
+						</tr>
+						<tr>
+							<td>2 Handed</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.TH,WEAPONS.TH2,WEAPONS.BMTH,WEAPONS.BITH,WEAPONS.RTH,9)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.TH" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.TH,WEAPONS.TH2,WEAPONS.BMTH,WEAPONS.BITH,WEAPONS.RTH,9)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.TH2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.TH,WEAPONS.TH2,WEAPONS.BMTH,WEAPONS.BITH,WEAPONS.RTH,9)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMTH" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.TH,WEAPONS.TH2,WEAPONS.BMTH,WEAPONS.BITH,WEAPONS.RTH,9)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BITH" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.TH,WEAPONS.TH2,WEAPONS.BMTH,WEAPONS.BITH,WEAPONS.RTH,9)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RTH" min="0"  max="100"></td>
+						  	<td>{{result[9].ability5 + result[9].ability2 + result[9].bonusItem -  result[9].reduction + result[9].bonusMix + result[9].stat}} BO </td>
+						</tr>
+						<tr>
+							<td>Throw</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.THR,WEAPONS.THR2,WEAPONS.BMTHR,WEAPONS.BITHR,WEAPONS.RTHR,10)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.THR" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.THR,WEAPONS.THR2,WEAPONS.BMTHR,WEAPONS.BITHR,WEAPONS.RTHR,10)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.THR2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.THR,WEAPONS.THR2,WEAPONS.BMTHR,WEAPONS.BITHR,WEAPONS.RTHR,10)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMTHR" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.THR,WEAPONS.THR2,WEAPONS.BMTHR,WEAPONS.BITHR,WEAPONS.RTHR,10)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BITHR" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.THR,WEAPONS.THR2,WEAPONS.BMTHR,WEAPONS.BITHR,WEAPONS.RTHR,10)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RTHR" min="0"  max="100"></td>
+						  	<td>{{result[10].ability5 + result[10].ability2 + result[10].bonusItem -  result[10].reduction + result[10].bonusMix + result[10].stat}} BO </td>
+						</tr>
+						<tr>
+							<td>Projectile</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PRO,WEAPONS.PRO2,WEAPONS.BMPRO,WEAPONS.BIPRO,WEAPONS.RPRO,11)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.PRO" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PRO,WEAPONS.PRO2,WEAPONS.BMPRO,WEAPONS.BIPRO,WEAPONS.RPRO,11)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.PRO2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PRO,WEAPONS.PRO2,WEAPONS.BMPRO,WEAPONS.BIPRO,WEAPONS.RPRO,11)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMPRO" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PRO,WEAPONS.PRO2,WEAPONS.BMPRO,WEAPONS.BIPRO,WEAPONS.RPRO,11)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BIPRO" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PRO,WEAPONS.PRO2,WEAPONS.BMPRO,WEAPONS.BIPRO,WEAPONS.RPRO,11)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RPRO" min="0"  max="100"></td>
+						  	<td>{{result[11].ability5 + result[11].ability2 + result[11].bonusItem -  result[11].reduction + result[11].bonusMix + result[11].stat}} BO </td>
+						</tr>
+						<tr>
+							<td>Pole</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PO,WEAPONS.PO2,WEAPONS.BMPO,WEAPONS.BIPO,WEAPONS.RPO,12)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.PO" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PO,WEAPONS.PO2,WEAPONS.BMPO,WEAPONS.BIPO,WEAPONS.RPO,12)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.PO2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PO,WEAPONS.PO2,WEAPONS.BMPO,WEAPONS.BIPO,WEAPONS.RPO,12)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BMPO" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PO,WEAPONS.PO2,WEAPONS.BMPO,WEAPONS.BIPO,WEAPONS.RPO,12)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.BIPO" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(WEAPONS.PO,WEAPONS.PO2,WEAPONS.BMPO,WEAPONS.BIPO,WEAPONS.RPO,12)" [ngModelOptions]="{standalone: true}" [(ngModel)]="WEAPONS.RPO" min="0"  max="100"></td>
+						  	<td>{{result[12].ability5 + result[12].ability2 + result[12].bonusItem -  result[12].reduction + result[12].bonusMix + result[12].stat}} BO </td>
+						</tr>
+					</tbody>
+				   </table>
+			</div>
+			<div class=" pull-left col-md-offset-1">
+			   <h4>General Abilities</h4>
+			   <table >
+			   		<thead>
+						<td>Type</td>
+					  	<td>Hability (5)</td>
+					  	<td>Hability (2)</td>
+					  	<td>Bonus Mix</td>
+					  	<td>Bonus Items</td>
+					  	<td>Reductions</td>
+					  	<td>TOTAL</td>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Climbing</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.CL,GENERALS.CL2,GENERALS.BMCL,GENERALS.BICL,GENERALS.RCL,13)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.CL" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.CL,GENERALS.CL2,GENERALS.BMCL,GENERALS.BICL,GENERALS.RCL,13)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.CL2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.CL,GENERALS.CL2,GENERALS.BMCL,GENERALS.BICL,GENERALS.RCL,13)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BMCL" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.CL,GENERALS.CL2,GENERALS.BMCL,GENERALS.BICL,GENERALS.RCL,13)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BICL" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.CL,GENERALS.CL2,GENERALS.BMCL,GENERALS.BICL,GENERALS.RCL,13)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RCL" min="0"  max="100"></td>
+						  	<td>{{result[13].ability5 + result[13].ability2 + result[13].bonusItem - result[13].reduction + result[13].bonusMix + result[13].stat}} MM </td>
+						</tr>
+						<tr>
+							<td>Riding</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.RD,GENERALS.RD2,GENERALS.BMRD,GENERALS.BIRD,GENERALS.RRD,14)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RD" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.RD,GENERALS.RD2,GENERALS.BMRD,GENERALS.BIRD,GENERALS.RRD,14)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RD2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.RD,GENERALS.RD2,GENERALS.BMRD,GENERALS.BIRD,GENERALS.RRD,14)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BMRD" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.RD,GENERALS.RD2,GENERALS.BMRD,GENERALS.BIRD,GENERALS.RRD,14)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BIRD" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.RD,GENERALS.RD2,GENERALS.BMRD,GENERALS.BIRD,GENERALS.RRD,14)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RRD" min="0"  max="100"></td>
+						  	<td>{{result[14].ability5 + result[14].ability2 + result[14].bonusItem - result[14].reduction + result[14].bonusMix + result[14].stat}} MM </td>
+						</tr>
+						<tr>
+							<td>Swiming</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.SW,GENERALS.SW2,GENERALS.BMSW,GENERALS.BISW,GENERALS.RSW,15)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.SW" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.SW,GENERALS.SW2,GENERALS.BMSW,GENERALS.BISW,GENERALS.RSW,15)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.SW2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.SW,GENERALS.SW2,GENERALS.BMSW,GENERALS.BISW,GENERALS.RSW,15)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BMSW" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.SW,GENERALS.SW2,GENERALS.BMSW,GENERALS.BISW,GENERALS.RSW,15)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BISW" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.SW,GENERALS.SW2,GENERALS.BMSW,GENERALS.BISW,GENERALS.RSW,15)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RSW" min="0"  max="100"></td>
+						  	<td>{{result[15].ability5 + result[15].ability2 + result[15].bonusItem - result[15].reduction + result[15].bonusMix + result[15].stat}} MM </td>
+						</tr>
+						<tr>
+							<td>Traking</td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.TR,GENERALS.TR2,GENERALS.BMTR,GENERALS.BITR,GENERALS.RTR,16)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.TR" min="0" max="50"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.TR,GENERALS.TR2,GENERALS.BMTR,GENERALS.BITR,GENERALS.RTR,16)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.TR2" min="0" max="10"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.TR,GENERALS.TR2,GENERALS.BMTR,GENERALS.BITR,GENERALS.RTR,16)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BMTR" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.TR,GENERALS.TR2,GENERALS.BMTR,GENERALS.BITR,GENERALS.RTR,16)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.BITR" min="0"  max="100"></td>
+						  	<td><input   type="number" step="1" (ngModelChange)="!setStats(GENERALS.TR,GENERALS.TR2,GENERALS.BMTR,GENERALS.BITR,GENERALS.RTR,16)" [ngModelOptions]="{standalone: true}" [(ngModel)]="GENERALS.RTR" min="0"  max="100"></td>
+						  	<td>{{result[16].ability5 + result[16].ability2 + result[16].bonusItem - result[16].reduction + result[16].bonusMix + result[16].stat}} ME </td>
+						</tr>
+					</tbody>
+			   </table>
+		 </div>
+	</div>
+  <!--ROW CONTAINS SUBTREFUGE AND MAGIC-->
+	<div class="row mt-2 form-group">
+	 <div class="pull-left">  
+	   <h4>Subtrefuge</h4>
+	   <table   >
+	   		<thead>
+				<td>Type</td>
+			  	<td>Hability (5)</td>
+			  	<td>Hability (2)</td>
+			  	<td>Bonus Mix</td>
+			  	<td>Bonus Items</td>
+			  	<td>Reductions</td>
+			  	<td>TOTAL</td>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Ambush</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.AM,SUBTREFUGE.AM2,SUBTREFUGE.BMAM,SUBTREFUGE.BIAM,SUBTREFUGE.RAM,17)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.AM" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.AM,SUBTREFUGE.AM2,SUBTREFUGE.BMAM,SUBTREFUGE.BIAM,SUBTREFUGE.RAM,17)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.AM2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.AM,SUBTREFUGE.AM2,SUBTREFUGE.BMAM,SUBTREFUGE.BIAM,SUBTREFUGE.RAM,17)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BMAM" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.AM,SUBTREFUGE.AM2,SUBTREFUGE.BMAM,SUBTREFUGE.BIAM,SUBTREFUGE.RAM,17)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BIAM" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.AM,SUBTREFUGE.AM2,SUBTREFUGE.BMAM,SUBTREFUGE.BIAM,SUBTREFUGE.RAM,17)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.RAM" min="0"  max="90"></td>
+				  	<td>{{result[17].ability5 + result[17].ability2 + result[17].bonusItem - result[17].reduction + result[17].bonusMix }} PE </td>
+				</tr>
+				<tr>
+					<td>Stalk/Hide</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.SH,SUBTREFUGE.SH2,SUBTREFUGE.BMSH,SUBTREFUGE.BISH,SUBTREFUGE.RSH,18)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.SH" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.SH,SUBTREFUGE.SH2,SUBTREFUGE.BMSH,SUBTREFUGE.BISH,SUBTREFUGE.RSH,18)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.SH2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.SH,SUBTREFUGE.SH2,SUBTREFUGE.BMSH,SUBTREFUGE.BISH,SUBTREFUGE.RSH,18)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BMSH" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.SH,SUBTREFUGE.SH2,SUBTREFUGE.BMSH,SUBTREFUGE.BISH,SUBTREFUGE.RSH,18)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BISH" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.SH,SUBTREFUGE.SH2,SUBTREFUGE.BMSH,SUBTREFUGE.BISH,SUBTREFUGE.RSH,18)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.RSH" min="0"  max="90"></td>
+				  	<td>{{result[18].ability5 + result[18].ability2 + result[18].bonusItem - result[18].reduction + result[18].bonusMix + result[18].stat}} PE </td> 
+				</tr>
+				<tr>
+					<td>Lockpicking</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.LP,SUBTREFUGE.LP2,SUBTREFUGE.BMLP,SUBTREFUGE.BILP,SUBTREFUGE.RLP,19)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.LP" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.LP,SUBTREFUGE.LP2,SUBTREFUGE.BMLP,SUBTREFUGE.BILP,SUBTREFUGE.RLP,19)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.LP2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.LP,SUBTREFUGE.LP2,SUBTREFUGE.BMLP,SUBTREFUGE.BILP,SUBTREFUGE.RLP,19)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BMLP" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.LP,SUBTREFUGE.LP2,SUBTREFUGE.BMLP,SUBTREFUGE.BILP,SUBTREFUGE.RLP,19)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BILP" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.LP,SUBTREFUGE.LP2,SUBTREFUGE.BMLP,SUBTREFUGE.BILP,SUBTREFUGE.RLP,19)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.RLP" min="0"  max="90"></td>
+				   	<td>{{result[19].ability5 + result[19].ability2 + result[19].bonusItem - result[19].reduction + result[19].bonusMix + result[19].stat}} ME </td>
+				</tr>
+				<tr>
+					<td>Disarm Traps</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.DT,SUBTREFUGE.DT2,SUBTREFUGE.BMDT,SUBTREFUGE.BIDT,SUBTREFUGE.RDT,20)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.DT" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.DT,SUBTREFUGE.DT2,SUBTREFUGE.BMDT,SUBTREFUGE.BIDT,SUBTREFUGE.RDT,20)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.DT2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.DT,SUBTREFUGE.DT2,SUBTREFUGE.BMDT,SUBTREFUGE.BIDT,SUBTREFUGE.RDT,20)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BMDT" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.DT,SUBTREFUGE.DT2,SUBTREFUGE.BMDT,SUBTREFUGE.BIDT,SUBTREFUGE.RDT,20)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.BIDT" min="0"  max="90"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(SUBTREFUGE.DT,SUBTREFUGE.DT2,SUBTREFUGE.BMDT,SUBTREFUGE.BIDT,SUBTREFUGE.RDT,20)" [ngModelOptions]="{standalone: true}" [(ngModel)]="SUBTREFUGE.RDT" min="0"  max="90"></td>
+				  	<td>{{result[20].ability5 + result[20].ability2 + result[20].bonusItem - result[20].reduction + result[20].bonusMix + result[20].stat}} ME </td>
+				</tr>
+			</tbody>
+	   </table>
+	   </div>
+	   <div class="col-md-offset-1 pull-left">
+	    <h4>Magic</h4>
+	   <table>
+	   		<thead>
+				<td>Type</td>
+			  	<td>Hability (5)</td>
+			  	<td>Hability (2)</td>
+			  	<td>Bonus Mix</td>
+			  	<td>Bonus Items</td>
+			  	<td>Reductions</td>
+			  	<td>TOTAL</td>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Runes</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.RN,MAGIC.RN2,MAGIC.BMRN,MAGIC.BIRN,MAGIC.RRN,21)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.RN" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.RN,MAGIC.RN2,MAGIC.BMRN,MAGIC.BIRN,MAGIC.RRN,21)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.RN2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.RN,MAGIC.RN2,MAGIC.BMRN,MAGIC.BIRN,MAGIC.RRN,21)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BMRN" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.RN,MAGIC.RN2,MAGIC.BMRN,MAGIC.BIRN,MAGIC.RRN,21)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BIRN" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.RN,MAGIC.RN2,MAGIC.BMRN,MAGIC.BIRN,MAGIC.RRN,21)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.RRN" min="0"  max="100"></td>
+				  	<td>{{result[21].ability5 + result[21].ability2 + result[21].bonusItem - result[21].reduction + result[21].bonusMix + result[21].stat}} ME </td>
+				</tr>
+				<tr>
+					<td>Use Magic Object</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.UMO,MAGIC.UMO2,MAGIC.BMUMO,MAGIC.BIUMO,MAGIC.RUMO,22)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.UMO" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.UMO,MAGIC.UMO2,MAGIC.BMUMO,MAGIC.BIUMO,MAGIC.RUMO,22)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.UMO2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.UMO,MAGIC.UMO2,MAGIC.BMUMO,MAGIC.BIUMO,MAGIC.RUMO,22)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BMUMO" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.UMO,MAGIC.UMO2,MAGIC.BMUMO,MAGIC.BIUMO,MAGIC.RUMO,22)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BIUMO" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.UMO,MAGIC.UMO2,MAGIC.BMUMO,MAGIC.BIUMO,MAGIC.RUMO,22)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.RUMO" min="0"  max="100"></td>
+				  	<td>{{result[22].ability5 + result[22].ability2 + result[22].bonusItem - result[22].reduction + result[22].bonusMix + result[22].stat}} ME </td>
+
+				</tr>
+				<tr>
+					<td>Directed spell</td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.DS,MAGIC.DS2,MAGIC.BMDS,MAGIC.BIDS,MAGIC.RDS,23)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.DS" min="0" max="50"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.DS,MAGIC.DS2,MAGIC.BMDS,MAGIC.BIDS,MAGIC.RDS,23)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.DS2" min="0" max="10"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.DS,MAGIC.DS2,MAGIC.BMDS,MAGIC.BIDS,MAGIC.RDS,23)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BMDS" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.DS,MAGIC.DS2,MAGIC.BMDS,MAGIC.BIDS,MAGIC.RDS,23)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.BIDS" min="0"  max="100"></td>
+				  	<td><input   type="number" step="1" (ngModelChange)="!setStats(MAGIC.DS,MAGIC.DS2,MAGIC.BMDS,MAGIC.BIDS,MAGIC.RDS,23)" [ngModelOptions]="{standalone: true}" [(ngModel)]="MAGIC.RDS" min="0"  max="100"></td>
+				  	<td>{{result[23].ability5 + result[23].ability2 + result[23].bonusItem - result[23].reduction + result[23].bonusMix + result[23].stat}} BO </td>
+				</tr>
+			</tbody>
+	   </table>
+	  </div>
+	</div>
+  <!--ROW CONTAINS DEFENSES, DICES AND SAVE-->
+	<div class="row  mt-2 form-group">
+			<div class="col-md-4 pull-left pl-0 "> 
+				<h4>Defensive Bonus</h4>
+					<table>
+					<thead>
+							<td>Hability (5)</td>
+							<td>Bonus Items</td>
+							<td>Reductions</td>
+							<td>TOTAL</td>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input    type="number" step="1" (ngModelChange)="!setStats(DEFENSE.DB,0,DEFENSE.BDB,0,DEFENSE.RDB,24)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="DEFENSE.DB" min="0"  max="100"></td>
+							<td><input    type="number" step="1" (ngModelChange)="!setStats(DEFENSE.DB,0,DEFENSE.BDB,0,DEFENSE.RDB,24)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="DEFENSE.BDB" min="0" max="50"></td>
+							<td><input    type="number" step="1" (ngModelChange)="!setStats(DEFENSE.DB,0,DEFENSE.BDB,0,DEFENSE.RDB,24)"  [ngModelOptions]="{standalone: true}" [(ngModel)]="DEFENSE.RDB" min="0"  max="100"></td>
+							<td>{{result[24].ability5 - result[24].reduction + result[24].bonusMix + result[24].stat}} DB </td>
+						</tr>
+					</tbody>
+					</table>
+			</div> 
+			<div class="btn-group col-md-3 mr-4 mt-5">
+          <div class="pull-left col-md-4 mr-2">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(0,100)">D100</button>
+					<div class="pull-rigth col-md-1">{{rolls[0].value}}</div>
+					</div>
+					<div class="pull-left col-md-4 ml-2">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(1,20)">D20</button>
+						<div class="pull-rigth col-md-1">{{rolls[1].value}}</div>
+					</div>
+					<div class="pull-left col-md-4 ml-2">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(2,12)">D12</button>
+						<div class="pull-rigth col-md-1">{{rolls[2].value}}</div>
+					</div>
+      </div>
+      <div class="btn-group col-md-3 mt-5 ">
+					<div class="pull-left col-md-4 mr-2">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(3,10)" >D10</button>
+						<div class="pull-rigth col-md-1">{{rolls[3].value}}</div>
+					</div>
+					<div class="pull-left col-md-4 ml-3">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(4,8)">D8</button>
+						<div class="pull-rigth col-md-1">{{rolls[4].value}}</div>
+					</div>
+					<div class="pull-left col-md-4 ml-4">
+						<button class="btn btn-default btn-md" (click)="getDiceRoll(5,4)">D4</button>
+						<div class="pull-rigth col-md-1">{{rolls[5].value}}</div>
+					</div>
+      </div>
+      <div class="btn-group col-md-8 mt-5 ">
+					<div class="pull-left col-md-3">
+						<button class="pull-left btn btn-default btn-md" (click)="getDiceRoll(6,2)">Coin</button>
+						<p class="pull-left pl-2 mt-2 ">{{coin[rolls[6].value].state}}</p>
+					</div>
+			  <div class="col-md-2 offset-2">
+					<button class="btn btn-danger " (click)="saveCharacter()">SAVE CHARACTER</button>
+			  </div>
+			</div>
+		</div>
+</div>
+</form>
+
+</ion-content>
