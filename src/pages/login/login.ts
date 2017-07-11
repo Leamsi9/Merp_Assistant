@@ -28,7 +28,7 @@ export class LoginPage implements OnInit {
     onClickLogingWithUserAndPass(){
        
         this.afAuth.auth.signInWithEmailAndPassword(this.user,this.password)
-            .then(() => this.successHandler())
+            .then(user =>  this.successHandler())
             .catch(e => this.errorHandler(e));
       
     }
@@ -51,13 +51,26 @@ export class LoginPage implements OnInit {
 
     createUser(){
         this.afAuth.auth.createUserWithEmailAndPassword(this.userCreate,this.passwordCreate)
-        .then(() =>   this.afAuth.auth.signInWithEmailAndPassword(this.user,this.password)
+        .then(() =>   this.afAuth.auth.signInWithEmailAndPassword(this.userCreate,this.password)
             .then(() => this.successHandler()))
         .catch(e => this.errorHandler(e));
     }
 
     successHandler() {
-        this.navCtrl.setRoot(HomePage);
+       const authObserver = this.afAuth.authState.subscribe(user=>{
+            if (user) {
+                if(this.af.setCurrentUser(user)){
+                this.navCtrl.setRoot(HomePage);
+                authObserver.unsubscribe();
+                }
+                else {
+                this.navCtrl.setRoot(LoginPage);
+                authObserver.unsubscribe();
+                 }
+            }
+        })
+    //  this.af.loadCharacterList();
+    //  this.navCtrl.setRoot(HomePage);
         }
     errorHandler(e) {
         console.log('error: ', e);

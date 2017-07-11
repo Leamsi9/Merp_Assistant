@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Character Sheet</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,12 +14,7 @@
 
 	<div class="com-md-12 row">
 		<input class="col-md-3 mr-5" type="string" [ngModelOptions]="{standalone: true}" [(ngModel)]="NAME" placeholder="Character Name">
-		<label class="ml-5 mt-2 mr-2 mt-1">Load Character</label>
-		<select class="col-md-2 mr-5 mt-1 " (change)="loadCharacter(SELECTED_CHAR)" [(ngModel)]="SELECTED_CHAR" [ngModelOptions]="{standalone: true}" >
-		<option *ngFor="let character of characters | async" [ngValue]="character" > 
-				{{character.name}}
-		</option>
-		</select>
+
 		<button class="ml-5 btn btn-danger mt-1" (click)="resetSheet()">New Character Sheet</button>
 	</div>
 <!--ROW CONTAINS PERCEPTION, HALTH, MOVEMENT AND STATS-->
@@ -28,7 +23,7 @@
 		 <h4>Perception</h4>
 		 <table>
 		  <thead class="p-2">
-			  	<td>Hability(5)</td>
+			  	<td>Ability(5)</td>
 			  	<td>Bonus Items</td>
 			  	<td>Reductions</td>
 			  	<td>TOTAL</td>
@@ -47,7 +42,7 @@
 		 <h4>Health</h4>
 		 <table class="pull-rigth">
 		  <thead>
-			  	<td>Hability(5)</td>
+			  	<td>Ability(5)</td>
 			  	<td>Bonus Items</td>
 			  	<td>Reductions</td>
 			  	<td>TOTAL</td>
@@ -68,7 +63,7 @@
 			 <table>
 			  <thead>
 					<td>Type</td>
-				  	<td>Hability (5)</td>
+				  	<td>Ability (5)</td>
 				  	<td>Bonus Items</td>
 				  	<td>Reductions</td>
 				  	<td>TOTAL</td>
@@ -156,8 +151,8 @@
 				<table>
 					<thead>
 						<td>Type</td>
-					  	<td>Hability (5)</td>
-					  	<td>Hability (2)</td>
+					  	<td>Ability (5)</td>
+					  	<td>Ability (2)</td>
 					  	<td>Bonus Mix</td>
 					  	<td>Bonus Items</td>
 					  	<td>Reductions</td>
@@ -226,8 +221,8 @@
 			   <table >
 			   		<thead>
 						<td>Type</td>
-					  	<td>Hability (5)</td>
-					  	<td>Hability (2)</td>
+					  	<td>Ability (5)</td>
+					  	<td>Ability (2)</td>
 					  	<td>Bonus Mix</td>
 					  	<td>Bonus Items</td>
 					  	<td>Reductions</td>
@@ -281,8 +276,8 @@
 	   <table   >
 	   		<thead>
 				<td>Type</td>
-			  	<td>Hability (5)</td>
-			  	<td>Hability (2)</td>
+			  	<td>Ability (5)</td>
+			  	<td>Ability (2)</td>
 			  	<td>Bonus Mix</td>
 			  	<td>Bonus Items</td>
 			  	<td>Reductions</td>
@@ -333,8 +328,8 @@
 	   <table>
 	   		<thead>
 				<td>Type</td>
-			  	<td>Hability (5)</td>
-			  	<td>Hability (2)</td>
+			  	<td>Ability (5)</td>
+			  	<td>Ability (2)</td>
 			  	<td>Bonus Mix</td>
 			  	<td>Bonus Items</td>
 			  	<td>Reductions</td>
@@ -379,7 +374,7 @@
 				<h4>Defensive Bonus</h4>
 					<table>
 					<thead>
-							<td>Hability (5)</td>
+							<td>Ability (5)</td>
 							<td>Bonus Items</td>
 							<td>Reductions</td>
 							<td>TOTAL</td>

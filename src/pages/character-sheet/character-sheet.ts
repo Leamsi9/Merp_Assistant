@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AF} from './../../providers/af'
-import {FirebaseListObservable} from "angularfire2/database";
+
 
 
 @Component({
@@ -10,44 +10,18 @@ import {FirebaseListObservable} from "angularfire2/database";
 
 export class CharacterSheet implements OnInit {
   
- 	public characters : FirebaseListObservable<{key:{
-													stats:{INT:number,AGI:number,PRE:number,CON:number,I:number,STR:number},
-													perception:{PR:number,BPR:number,RPR:number},
-													health:{HP:number,BHP:number,RHP:number},	
-													movement:{NA:number,BNA:number,RNA:number,
-															  LE:number,BLE:number,RLE:number,
-															  HL:number,BHL:number,RHL:number,
-															  CM:number,BCM:number,RCM:number,
-															  PL:number,BPL:number,RPL:number},
-													weapons:{ ED:number,ED2:number,BMED:number,BIED:number,RED:number,
-															  BL:number,BL2:number,BMBL:number,BIBL:number,RBL:number,
-															  TH:number,TH2:number,BMTH:number,BITH:number,RTH:number,
-															  THR:number,THR2:number,BMTHR:number,BITHR:number,RTHR:number,
-															  PRO:number,PRO2:number,BMPRO:number,BIPRO:number,RPRO:number,
-										 					  PO:number,PO2:number,BMPO:number,BIPO:number,RPO:number},
-													generals:{CL:number,CL2:number,BMCL:number,BICL:number,RCL:number,
-													  		  RD:number,RD2:number,BMRD:number,BIRD:number,RRD:number,
-															  SW:number,SW2:number,BMSW:number,BISW:number,RSW:number,
-															  TR:number,TR2:number,BMTR:number,BITR:number,RTR:number},
-													subtrefuge:{AM:number,AM2:number,BMAM:number,BIAM:number,RAM:number,
-																SH:number,SH2:number,BMSH:number,BISH:number,RSH:number,
-																LP:number,LP2:number,BMLP:number,BILP:number,RLP:number,
-																DT:number,DT2:number,BMDT:number,BIDT:number,RDT:number},
-													magic:{RN:number,RN2:number,BMRN:number,BIRN:number,RRN:number,
-														   UMO:number,UMO2:number,BMUMO:number,BIUMO:number,RUMO:number,
-														   DS:number,DS2:number,BMDS:number,BIDS:number,RDS:number},
-													defense:{DB:number,BDB:number,RDB:number},
-													email:string,
-													name:string,
-													timestamp:Date,
-												}
-											}[]>;
   constructor(public afService:AF) {
 
-   this.characters = this.afService.characters
-}
+		var character = this.afService.selectedCharacter
+		if(character==null){
+			this.resetSheet()
+		}else{
+			this.loadCharacter(character)
+		}
+	}
   ngOnInit() {
-  }
+  
+	}
 
 public CHARACTER_KEY:string ="";
 
@@ -222,6 +196,7 @@ public updateResutls(value:number,stat:string){
 		}
 
 	resetSheet(){
+		this.CHARACTER_KEY="";
 		this.NAME ="";
 		this.STATS = {INT:0,AGI:0,PRE:0,CON:0,I:0,STR:0};
 		this.PERCEPTION = {PR:0,BPR:0,RPR:0};	

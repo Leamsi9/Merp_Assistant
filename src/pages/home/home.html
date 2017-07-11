@@ -9,8 +9,17 @@
 
 <ion-content padding>
 
-<div>
-  <button (click)="goCharacterSheet()">Character Sheet</button>
+<div class="col-md-3">
+  <button class="btn btn-default" (click)="goCharacterSheet()">New Character</button>
 </div>
+<div class="tabl-responsive ">
+  <table class="table table-hover">
+      <tr *ngFor="let character of characters | async" >
 
+        <td class="" (click)="setSelectedCharacter(character)">{{character.name}}</td>
+        <td><button class="btn btn-danger " hidden="true" (click)="deleteCharacter(character)"> Delete</button></td>
+
+      </tr>
+  </table>    
+</div>
 </ion-content>

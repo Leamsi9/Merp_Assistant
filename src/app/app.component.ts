@@ -3,6 +3,7 @@ import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { AF } from './../providers/af';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -20,18 +21,17 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
   isBrowser:any;
 
-  constructor(public platform: Platform,public afAuth:AngularFireAuth, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform,public afAuth:AngularFireAuth, public statusBar: StatusBar, public splashScreen: SplashScreen,private af:AF ) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'LoginPage', component: LoginPage },
       { title: 'ChacarterSheet', component: CharacterSheet }
     ];
     const authObserver = afAuth.authState.subscribe( user => {
-      if (user) {
+      if (user && af.currentUser!=null) {
         this.rootPage = HomePage;
         authObserver.unsubscribe();
       } else {
@@ -40,11 +40,11 @@ export class MyApp {
       }
     });
     var deviceInformation = platform.getActiveElement();
-if (deviceInformation.localName === "browser"){
-    this.isBrowser = true;
-}else{
-    this.isBrowser = false;
-}
+    if (deviceInformation.localName === "browser"){
+        this.isBrowser = true;
+      }else{
+        this.isBrowser = false;
+      }
 }
   
   initializeApp() {
