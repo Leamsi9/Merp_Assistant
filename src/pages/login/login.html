@@ -7,7 +7,7 @@
             <label class="col-md-6 "> LOGIN </label>
             <input class="col-md-6 " type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="user" placeholder="email">
 
-            <input class="col-md-6 " type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="password" placeholder="password">
+            <input class="col-md-6 " (keyup.enter)="onClickLogingWithUserAndPass()" type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="password" placeholder="password">
         
             <button class="col-md-6 " (click)="onClickLogingWithUserAndPass()">Login</button>
     

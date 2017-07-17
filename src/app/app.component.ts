@@ -9,6 +9,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import {CharacterSheet} from '../pages/character-sheet/character-sheet';
 import { LoginPage } from '../pages/login/login';
+import { LobbyPage } from '../pages/lobby/lobby';
 
 @Component({
   templateUrl: 'app.html'
@@ -28,7 +29,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-      { title: 'ChacarterSheet', component: CharacterSheet }
+      { title: 'ChacarterSheet', component: CharacterSheet },
+      { title: 'Lobby', component: LobbyPage}
     ];
     const authObserver = afAuth.authState.subscribe( user => {
       if (user && af.currentUser!=null) {

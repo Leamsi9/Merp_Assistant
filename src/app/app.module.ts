@@ -7,6 +7,8 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import {CharacterSheet} from '../pages/character-sheet/character-sheet';
 import { LoginPage } from '../pages/login/login';
+import { LobbyPage} from '../pages/lobby/lobby'
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -20,6 +22,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
+import { UserProvider } from '../providers/user/user';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { environment } from '../environments/environment';
     HomePage,
     ListPage,
     CharacterSheet,
-    LoginPage
+    LoginPage,
+    LobbyPage   
   ],
   imports: [
     BrowserModule,
@@ -42,13 +46,15 @@ import { environment } from '../environments/environment';
     HomePage,
     ListPage,
     LoginPage,
-    CharacterSheet
+    CharacterSheet,
+    LobbyPage   
   ],
   providers: [
     AF,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserProvider
   ]
 })
 export class AppModule {}

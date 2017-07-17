@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { AF } from './../../providers/af';
+import { UserProvider } from './../../providers/user/user';
 import { HomePage } from './../../pages/home/home';
 
 
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit {
    public userCreate:string;
    public passwordCreate:string;
 
-    constructor(public afAuth: AngularFireAuth,public af: AF, public navCtrl:NavController) {
+    constructor(public afAuth: AngularFireAuth,public af: AF, public navCtrl:NavController, public userProvider:UserProvider ) {
     }
 
     ngOnInit() { }
@@ -40,20 +41,18 @@ export class LoginPage implements OnInit {
     }
 
     onClickLoginWithFacebook() {
-         if (this.passwordCreate==this.passwordConfirm) {
         this.afAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
             .then(() => this.successHandler())
-            .catch(e => this.errorHandler(e));
-              } else {
-            this.error = "Password and Confirmation do not match"
-        }
+            .catch(e => this.errorHandler(e));        
     }
 
     createUser(){
+         if (this.passwordCreate==this.passwordConfirm) {
         this.afAuth.auth.createUserWithEmailAndPassword(this.userCreate,this.passwordCreate)
-        .then(() =>   this.afAuth.auth.signInWithEmailAndPassword(this.userCreate,this.password)
-            .then(() => this.successHandler()))
-        .catch(e => this.errorHandler(e));
+        .then(() =>   this.afAuth.auth.signInWithEmailAndPassword(this.userCreate,this.passwordCreate)
+            .then(() => this.successCreationHandler()))
+        .catch(e => this.errorHandler(e));} else {
+            this.error = "Password and Confirmation do not match"}
     }
 
     successHandler() {
@@ -69,9 +68,22 @@ export class LoginPage implements OnInit {
                  }
             }
         })
-    //  this.af.loadCharacterList();
-    //  this.navCtrl.setRoot(HomePage);
         }
+    successCreationHandler(){
+           const authObserver = this.afAuth.authState.subscribe(user=>{
+            if (user) {
+                this.userProvider.createUser(user);
+                if(this.af.setCurrentUser(user)){
+                this.navCtrl.setRoot(HomePage);
+                authObserver.unsubscribe();
+                }
+                else {
+                this.navCtrl.setRoot(LoginPage);
+                authObserver.unsubscribe();
+                 }
+            }
+        })
+    }
     errorHandler(e) {
         console.log('error: ', e);
         this.error = e.message;

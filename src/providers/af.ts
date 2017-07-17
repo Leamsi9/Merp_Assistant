@@ -1,8 +1,7 @@
 import {Injectable, NgZone} from "@angular/core";
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
-import { Subject } from 'rxjs/Subject';
-
+import {UserProvider} from  './user/user'
 
 
 export interface USER {
@@ -20,14 +19,13 @@ export class AF {
   public displayName: string;
   public email: string;
   public currentUser:string = null ;
-  private userSubject: Subject<any>;
-  
+   
   user: USER = {} as USER;
 
   public selectedCharacter: FirebaseListObservable<any>;
 
 
-  constructor(private ngZone: NgZone,public db: AngularFireDatabase,public  afAuth: AngularFireAuth) {
+  constructor(private ngZone: NgZone,public db: AngularFireDatabase,public  afAuth: AngularFireAuth, public userProvider:UserProvider) {
      db.database.goOnline;
      afAuth.authState;
      }
@@ -43,22 +41,12 @@ export class AF {
   }
 
   setCurrentUser(user){
-                    this.user.providerId = user.providerId;
-                    this.user.uid = user.uid;
-                    this.user.displayName =user.displayName;
-                    this.user.email = user.email;
-                    this.user.photoURL = user.photoURL;
+                    this.user= this.userProvider.getUser(user.uid)
                     this.currentUser=user.uid;
-                    this.user.characters = this.db.list('users'+this.currentUser+'/characters')
-                    // console.log("user   logged in: ", this.user);
              
                     return (this.currentUser!=undefined&&this.currentUser!=null)
                
   }
-
-  loadCharacterList(){
-  
-    }
 
   saveCharacter(key:string,stats,perception,health,movement,weapons,generals,subtrefuge,magic,defense,name){  
       let keyAtEnd = "";
