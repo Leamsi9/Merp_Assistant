@@ -1,10 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title>Character Sheet</ion-title>
+     <button clear color="dark" (click)="goBack()" ion-button side="left" col-1 menuClose>
+      <ion-icon name="arrow-back"> </ion-icon>
+	</button>
+	<ion-title>Character Sheet</ion-title>
   </ion-navbar>
+	
 </ion-header>
 
 <ion-content ng-class="{ isBrowserView : isBrowser== true } ">

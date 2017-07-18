@@ -1,31 +1,21 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <button role="img" ion-button col-2 menuToggle>
+      <ion-icon col-7 class=""> <img [src]="menuIcon"> </ion-icon>
     </button>
     <ion-title>Home</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-<ion-item>
-    <ion-avatar item-start>
-    <!--  <img src={{user.photoUrl}}> -->
-</ion-avatar>
-</ion-item> 
+
 
 
 <div class="col-md-3">
   <button class="btn btn-default" (click)="goCharacterSheet()">New Character</button>
 </div>
-<div class="tabl-responsive ">
-  <table class="table table-hover">
-      <tr *ngFor="let character of characters | async" >
-
-        <td class="" (click)="setSelectedCharacter(character)">{{character.name}}</td>
-        <td><button class="btn btn-danger " hidden="true" (click)="deleteCharacter(character)"> Delete</button></td>
-
-      </tr>
-  </table>    
+<div class="col-md-3">
+  <button class="btn btn-default" (click)="goCharactersPage()">Select Character</button>
 </div>
+
 </ion-content>

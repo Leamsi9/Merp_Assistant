@@ -25,13 +25,13 @@ export class UserProvider {
   }
 
   getUser(uid:string){
-    var result:USER;
+    var result:USER = {} as USER;
     this.db.object('users/'+uid).forEach(element => {
             result.providerId = element.providerId;
-            result.characters = element.chraracters;
             result.email = element.email;
             result.photoURL=element.photoURL;
             result.displayName = element.displayName;   
+            result.characters = this.db.list('users/'+uid+'/characters');
     });;
     return result;
   }
@@ -41,7 +41,7 @@ export class UserProvider {
            providerId : user.providerId,
            displayName :user.displayName,
            email : user.email,
-           photoURL : 'gs://merp-64b26.appspot.com/diceIcon.png',
+           photoURL : 'https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa',
            characters : null
           }
     this.user.update(user.uid,userCreate);

@@ -2,14 +2,13 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AF } from './../providers/af';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
-import {CharacterSheet} from '../pages/character-sheet/character-sheet';
 import { LoginPage } from '../pages/login/login';
-import { LobbyPage } from '../pages/lobby/lobby';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -17,36 +16,35 @@ import { LobbyPage } from '../pages/lobby/lobby';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
+
+  profilePic : string = "https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa";
 
   pages: Array<{title: string, component: any}>;
-  isBrowser:any;
+
 
   constructor(public platform: Platform,public afAuth:AngularFireAuth, public statusBar: StatusBar, public splashScreen: SplashScreen,private af:AF ) {
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'ChacarterSheet', component: CharacterSheet },
-      { title: 'Lobby', component: LobbyPage}
-    ];
+      this.pages = [
+        { title: 'Home', component: HomePage },
+
+      ];
     const authObserver = afAuth.authState.subscribe( user => {
-      if (user && af.currentUser!=null) {
+      // used for an example of ngFor and navigation
+      if (user) {
+        this.af.setCurrentUser(user);
+       this.af.getProfilePic(user.uid).forEach(element => {
+         this.profilePic = element.$value;  
+        });;
+        authObserver.unsubscribe();
         this.rootPage = HomePage;
-        authObserver.unsubscribe();
       } else {
-        this.rootPage = LoginPage;
         authObserver.unsubscribe();
+        this.rootPage = LoginPage;
       }
     });
-    var deviceInformation = platform.getActiveElement();
-    if (deviceInformation.localName === "browser"){
-        this.isBrowser = true;
-      }else{
-        this.isBrowser = false;
-      }
+
 }
   
   initializeApp() {
@@ -59,8 +57,9 @@ export class MyApp {
   }
 
   logout(){
-    this.afAuth.auth.signOut();
-    this.nav.setRoot(LoginPage);
+    this.afAuth.auth.signOut()
+    this.nav.setRoot(LoginPage); 
+ 
   }
 
   openPage(page) {

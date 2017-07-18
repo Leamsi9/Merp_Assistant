@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {AF} from './../../providers/af'
+import { Component } from '@angular/core';
+import {AF} from './../../providers/af';
+import { NavController,MenuController } from 'ionic-angular';
+import { HomePage} from './../../pages/home/home'
 
 
 
@@ -8,9 +10,9 @@ import {AF} from './../../providers/af'
     templateUrl: 'character-sheet.html'
 })
 
-export class CharacterSheet implements OnInit {
+export class CharacterSheet  {
   
-  constructor(public afService:AF) {
+  constructor(public afService:AF,public navCtl:NavController, public menuCtl: MenuController) {
 
 		var character = this.afService.selectedCharacter
 		if(character==null){
@@ -19,9 +21,8 @@ export class CharacterSheet implements OnInit {
 			this.loadCharacter(character)
 		}
 	}
-  ngOnInit() {
-  
-	}
+
+public menuIcon: string = this.afService.menuIcon ;
 
 public CHARACTER_KEY:string ="";
 
@@ -233,6 +234,11 @@ public updateResutls(value:number,stat:string){
 
 	return num - resto + (bool ? 0.5 : 0);
 
+	}
+
+	goBack(){
+		this.navCtl.pop();
+		this.menuCtl.close();
 	}
 
 }

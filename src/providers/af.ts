@@ -22,6 +22,8 @@ export class AF {
    
   user: USER = {} as USER;
 
+  menuIcon = "https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa"; 
+
   public selectedCharacter: FirebaseListObservable<any>;
 
 
@@ -39,9 +41,13 @@ export class AF {
 //    this.userSubject.next(this.currentUser);
     return this.user.characters;
   }
+  getProfilePic(uid:string){
+    return this.db.object('users/'+uid+'/photoURL');
+  }
 
   setCurrentUser(user){
                     this.user= this.userProvider.getUser(user.uid)
+                    
                     this.currentUser=user.uid;
              
                     return (this.currentUser!=undefined&&this.currentUser!=null)

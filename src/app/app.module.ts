@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 import {CharacterSheet} from '../pages/character-sheet/character-sheet';
 import { LoginPage } from '../pages/login/login';
 import { LobbyPage} from '../pages/lobby/lobby'
+import {CharactersPage} from '../pages/characters/characters';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -31,7 +32,8 @@ import { UserProvider } from '../providers/user/user';
     ListPage,
     CharacterSheet,
     LoginPage,
-    LobbyPage   
+    LobbyPage,
+    CharactersPage   
   ],
   imports: [
     BrowserModule,
@@ -47,6 +49,7 @@ import { UserProvider } from '../providers/user/user';
     ListPage,
     LoginPage,
     CharacterSheet,
+    CharactersPage,
     LobbyPage   
   ],
   providers: [

@@ -59,12 +59,12 @@ export class LoginPage implements OnInit {
        const authObserver = this.afAuth.authState.subscribe(user=>{
             if (user) {
                 if(this.af.setCurrentUser(user)){
-                this.navCtrl.setRoot(HomePage);
                 authObserver.unsubscribe();
+                this.navCtrl.setRoot(HomePage);
                 }
                 else {
-                this.navCtrl.setRoot(LoginPage);
                 authObserver.unsubscribe();
+                this.navCtrl.setRoot(LoginPage);
                  }
             }
         })
@@ -74,12 +74,12 @@ export class LoginPage implements OnInit {
             if (user) {
                 this.userProvider.createUser(user);
                 if(this.af.setCurrentUser(user)){
-                this.navCtrl.setRoot(HomePage);
                 authObserver.unsubscribe();
+                this.navCtrl.setRoot(HomePage);
                 }
                 else {
-                this.navCtrl.setRoot(LoginPage);
                 authObserver.unsubscribe();
+                this.navCtrl.setRoot(LoginPage);
                  }
             }
         })

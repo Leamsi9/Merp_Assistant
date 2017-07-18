@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AF} from './../../providers/af'
 
 /**
  * Generated class for the LobbyPage page.
@@ -14,8 +15,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LobbyPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public af:AF) {
   }
+
+  public menuIcon: string = this.af.menuIcon ;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LobbyPage');
