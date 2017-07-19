@@ -36,10 +36,10 @@ export class UserProvider {
     return result;
   }
 
-  createUser(user:any){
+  createUser(user:any,userName:string){
     var userCreate = {
            providerId : user.providerId,
-           displayName :user.displayName,
+           displayName :userName,
            email : user.email,
            photoURL : 'https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa',
            characters : null

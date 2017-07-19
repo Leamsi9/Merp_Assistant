@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header *ngIf="isRoot()">
   <ion-navbar>
      <button clear color="dark" (click)="goBack()" ion-button side="left" col-1 menuClose>
       <ion-icon name="arrow-back"> </ion-icon>

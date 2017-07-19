@@ -5,9 +5,9 @@
     <div class="row">
         <div class="col-md-6 offset-3" layout="row" layout-align="center">
             <label class="col-md-6 "> LOGIN </label>
-            <input class="col-md-6 " type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="user" placeholder="email">
+            <input class="col-md-6 " type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="user" placeholder="Email">
 
-            <input class="col-md-6 " (keyup.enter)="onClickLogingWithUserAndPass()" type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="password" placeholder="password">
+            <input class="col-md-6 " (keyup.enter)="onClickLogingWithUserAndPass()" type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="password" placeholder="Password">
         
             <button class="col-md-6 " (click)="onClickLogingWithUserAndPass()">Login</button>
     
@@ -16,11 +16,13 @@
     <div class="row">
         <div class="col-md-6 offset-3">
             <label class="col-md-6 "> REGISTER </label>
-            <input class="col-md-6 " type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="userCreate" placeholder="email">
+            <input class="col-md-6 " type="email" [ngModelOptions]="{standalone: true}" [(ngModel)]="userCreate" placeholder="Email">
 
-            <input class="col-md-6 " type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="passwordCreate" placeholder="password">
+            <input class="col-md-6 " type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="userName" placeholder="User Name">
+
+            <input class="col-md-6 " type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="passwordCreate" placeholder="Password">
         
-            <input class="col-md-6 " type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="passwordConfirm" placeholder="confirm password">
+            <input class="col-md-6 " type="password" [ngModelOptions]="{standalone: true}" [(ngModel)]="passwordConfirm" placeholder="Confirm Password">
 
             <button class="col-md-6 " (click)="createUser()">Register</button>
         </div>

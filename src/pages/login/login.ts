@@ -20,6 +20,7 @@ export class LoginPage implements OnInit {
    public passwordConfirm:string;
 
    public userCreate:string;
+   public userName:string;
    public passwordCreate:string;
 
     constructor(public afAuth: AngularFireAuth,public af: AF, public navCtrl:NavController, public userProvider:UserProvider ) {
@@ -72,7 +73,7 @@ export class LoginPage implements OnInit {
     successCreationHandler(){
            const authObserver = this.afAuth.authState.subscribe(user=>{
             if (user) {
-                this.userProvider.createUser(user);
+                this.userProvider.createUser(user,this.userName);
                 if(this.af.setCurrentUser(user)){
                 authObserver.unsubscribe();
                 this.navCtrl.setRoot(HomePage);

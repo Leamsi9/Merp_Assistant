@@ -1,0 +1,17 @@
+
+<ion-header>
+  <ion-navbar>
+    <button role="img" ion-button col-2 menuToggle>
+      <ion-icon col-7 class=""> <img [src]="menuIcon"> </ion-icon>
+    </button>
+    <ion-title>Playing Board</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+<ion-tabs>
+    <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="beer"></ion-tab>
+    <ion-tab [root]="tableRoot" tabTitle="Table" tabIcon="bonfire"></ion-tab>
+    <ion-tab [root]="charSheetRoot" tabTitle="Character" tabIcon="walk"></ion-tab>
+</ion-tabs>
+</ion-content>

@@ -4,7 +4,6 @@ import { NavController,MenuController } from 'ionic-angular';
 import { HomePage} from './../../pages/home/home'
 
 
-
 @Component({
     selector: 'character-sheet',
     templateUrl: 'character-sheet.html'
@@ -239,6 +238,11 @@ public updateResutls(value:number,stat:string){
 	goBack(){
 		this.navCtl.pop();
 		this.menuCtl.close();
+	}
+
+	isRoot(){
+		var component = this.navCtl.getType();
+		return 	component == 'portal' ;
 	}
 
 }
