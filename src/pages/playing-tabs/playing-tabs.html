@@ -9,9 +9,12 @@
 </ion-header>
 
 <ion-content padding>
-<ion-tabs>
+<ion-tabs *ngIf="gameIsLoaded()">
     <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="beer"></ion-tab>
     <ion-tab [root]="tableRoot" tabTitle="Table" tabIcon="bonfire"></ion-tab>
     <ion-tab [root]="charSheetRoot" tabTitle="Character" tabIcon="walk"></ion-tab>
 </ion-tabs>
+  <ion-item no-lines offset-3 *ngIf="!gameIsLoaded()">
+    <h2>No Game Loaded</h2>
+  </ion-item>
 </ion-content>

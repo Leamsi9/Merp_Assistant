@@ -1,10 +1,10 @@
 import { Component} from '@angular/core';
-import { IonicPage, MenuController, NavController,ModalController} from 'ionic-angular';
-import { CharacterSheet } from './../../pages/character-sheet/character-sheet'
+import { IonicPage, NavController} from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AF } from './../../providers/af';
-import {UserProvider} from   './../../providers/user/user'
 import { FirebaseListObservable } from 'angularfire2/database';
+import { PlayingTabsPage } from '../../pages/playing-tabs/playing-tabs';
+import { CurrentGamesPage} from '../../pages/current-games/current-games';
 
 
 
@@ -18,16 +18,12 @@ export class CharactersPage {
 
   public menuIcon: string = this.af.menuIcon ;
 
-  constructor(public afAuth:AngularFireAuth,public menuCtl:MenuController ,public navCtrl: NavController, private af:AF, public modalCrtl:ModalController) {
+  constructor(public afAuth:AngularFireAuth ,public navCtrl: NavController, private af:AF, ) {
    this.characters = this.af.getCharacters();
   }
 
-
- 
-  goCharacterSheet(){
-     let modal =this.modalCrtl.create(CharacterSheet);
-     this.navCtrl.pop();
-     modal.present();
+  goPlayingPages(){
+    this.navCtrl.setRoot(PlayingTabsPage)
   }
 
   deleteCharacter(char){
@@ -36,12 +32,12 @@ export class CharactersPage {
 
   setSelectedCharacter(character){
     this.af.selectedCharacter = character;
-    this.goCharacterSheet();
+   // this.af.setCharacterInCurrentGame();
+    this.goPlayingPages();
   }
 
   goBack(){
-    this.navCtrl.pop();
-    this.menuCtl.close();
+    this.navCtrl.setRoot(CurrentGamesPage)
   }
 
 }

@@ -30,6 +30,10 @@ export class PlayingTabsPage {
 
   public menuIcon: string = this.af.menuIcon ;
 
+  gameIsLoaded(){
+    return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
+  }
+
 
 
 }

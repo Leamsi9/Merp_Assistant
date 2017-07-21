@@ -16,4 +16,23 @@
 
 <ion-content padding>
 
+  <ion-item>
+    <ion-label floating>Game Name</ion-label>
+    <ion-input type="text" [(ngModel)]="gameName"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-select multiple="true" [(ngModel)]="players" placeholder="Select Players">
+      <ion-option *ngFor="let user of users | async" [value]="user.$key">{{user.displayName}}</ion-option>
+    </ion-select>
+  </ion-item>
+
+  <button offset-3 ion-button color="dark" (click)="createGame()"> Create Game </button>
+
+  <div class="row">
+    <div *ngIf="error" class="alert alert-warning" role="alert">
+        <strong>{{ error }}</strong>
+    </div>
+  </div>
+
 </ion-content>

@@ -9,6 +9,7 @@ import { AF } from './../providers/af';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { CreateGamePage} from '../pages/create-game/create-game';
+import { CurrentGamesPage} from '../pages/current-games/current-games';
 import { PlayingTabsPage } from '../pages/playing-tabs/playing-tabs';
 
 
@@ -31,7 +32,8 @@ export class MyApp {
       this.pages = [
         { title: 'Home', component: HomePage },
         { title: 'Table', component: PlayingTabsPage },
-        { title: 'Create Game', component: CreateGamePage}        
+        { title: 'Create Game', component: CreateGamePage},
+        { title: 'Current Games', component: CurrentGamesPage}        
 
       ];
     const authObserver = afAuth.authState.subscribe( user => {

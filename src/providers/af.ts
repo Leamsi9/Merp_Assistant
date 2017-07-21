@@ -16,9 +16,11 @@ export interface USER {
 @Injectable()
 export class AF {
   
-  public displayName: string;
-  public email: string;
-  public currentUser:string = null ;
+  public displayName : string;
+  public email : string;
+  public currentUser : string = null;
+  public currentGame : string; 
+  public games : FirebaseListObservable<any>;
    
   user: USER = {} as USER;
 
@@ -30,6 +32,7 @@ export class AF {
   constructor(private ngZone: NgZone,public db: AngularFireDatabase,public  afAuth: AngularFireAuth, public userProvider:UserProvider) {
      db.database.goOnline;
      afAuth.authState;
+     this.games = this.db.list('games')
      }
 
 
@@ -93,6 +96,25 @@ export class AF {
 
   deleteCharacter(char:any){
     this.user.characters.remove(char);
+  }
+
+  getGames(){
+    return this.games;
+  }
+  
+  setCharacterInCurrentGame(){
+   let playersForUpdate= this.db.object('games/'+this.currentGame+'/players');
+   playersForUpdate.forEach(element => {
+      if(element==this.currentUser){
+        playersForUpdate.update( {
+          characterSelected: this.selectedCharacter
+        })
+      }
+    });
+  }
+
+  getInvites(){
+    return this.db.list('gameInvites');
   }
 
 }

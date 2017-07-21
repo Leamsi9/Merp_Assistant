@@ -15,6 +15,8 @@ import { PlayingTabsPageModule } from '../pages/playing-tabs/playing-tabs.module
 import { TablePage } from '../pages/table/table';
 import { ChatPage} from '../pages/chat/chat';
 import { CreateGamePage} from '../pages/create-game/create-game';
+import { CurrentGamesPageModule} from '../pages/current-games/current-games.module';
+
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -45,6 +47,7 @@ import { UserProvider } from '../providers/user/user';
   imports: [
     BrowserModule,
     PlayingTabsPageModule,
+    CurrentGamesPageModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,

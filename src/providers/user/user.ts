@@ -18,10 +18,10 @@ export interface USER {
 @Injectable()
 export class UserProvider {
 
-  private user : FirebaseListObservable<any[]>;
+  private users : FirebaseListObservable<any[]>;
 
   constructor(public db:AngularFireDatabase) {
-    this.user = this.db.list('users')
+    this.users = this.db.list('users')
   }
 
   getUser(uid:string){
@@ -36,6 +36,10 @@ export class UserProvider {
     return result;
   }
 
+  getAllUsers(){
+    return this.users;
+  }
+
   createUser(user:any,userName:string){
     var userCreate = {
            providerId : user.providerId,
@@ -44,6 +48,6 @@ export class UserProvider {
            photoURL : 'https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa',
            characters : null
           }
-    this.user.update(user.uid,userCreate);
+    this.users.update(user.uid,userCreate);
   }
 }
