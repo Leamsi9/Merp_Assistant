@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
 import { UserProvider } from './../../providers/user/user';
-import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
+import { FirebaseListObservable} from 'angularfire2/database';
 /**
  * Generated class for the CreateGamePage page.
  *
@@ -28,7 +28,7 @@ export class CreateGamePage {
 
   public menuIcon: string = this.af.menuIcon ;
 
-  constructor(public navCtrl: NavController,public db:AngularFireDatabase, public navParams: NavParams, public af:AF, private usersProvideer:UserProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public af:AF, private usersProvideer:UserProvider) {
   
   this.games = this.af.getGames();
   this.users = this.usersProvideer.getAllUsers();

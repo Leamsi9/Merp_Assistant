@@ -116,5 +116,13 @@ export class AF {
   getInvites(){
     return this.db.list('gameInvites');
   }
+  getInvitesByUser(){
+    return this.db.list('gameInvites',{
+      query:{
+        orderByChild:'player',
+        equalTo: this.currentUser
+      }
+    })
+  }
 
 }

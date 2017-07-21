@@ -16,6 +16,7 @@ import { TablePage } from '../pages/table/table';
 import { ChatPage} from '../pages/chat/chat';
 import { CreateGamePage} from '../pages/create-game/create-game';
 import { CurrentGamesPageModule} from '../pages/current-games/current-games.module';
+import { InvitesPage} from '../pages/invites/invites';
 
 
 
@@ -42,7 +43,8 @@ import { UserProvider } from '../providers/user/user';
     LoginPage,
     LobbyPage,
     CharactersPage,
-    CreateGamePage
+    CreateGamePage,
+    InvitesPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ import { UserProvider } from '../providers/user/user';
     PlayingTabsPage,
     ChatPage,
     TablePage,
-    CreateGamePage
+    CreateGamePage,
+    InvitesPage
   ],
   providers: [
     AF,

@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login';
 import { CreateGamePage} from '../pages/create-game/create-game';
 import { CurrentGamesPage} from '../pages/current-games/current-games';
 import { PlayingTabsPage } from '../pages/playing-tabs/playing-tabs';
+import { InvitesPage} from '../pages/invites/invites';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class MyApp {
         { title: 'Home', component: HomePage },
         { title: 'Table', component: PlayingTabsPage },
         { title: 'Create Game', component: CreateGamePage},
-        { title: 'Current Games', component: CurrentGamesPage}        
+        { title: 'Current Games', component: CurrentGamesPage},
+        { title: 'Game Invites', component: InvitesPage}        
 
       ];
     const authObserver = afAuth.authState.subscribe( user => {
