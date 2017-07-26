@@ -3,20 +3,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
 import { UserProvider } from './../../providers/user/user';
 import { FirebaseListObservable} from 'angularfire2/database';
-import { CharactersPage} from '../../pages/characters/characters';
+import { PlayingTabsPage } from '../../pages/playing-tabs/playing-tabs';
 
-/**
- * Generated class for the CurrentGamesPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+
+export interface GAME{
+  gameMaster : string ; 
+  gameName:string;
+  players : any[];
+}
 @IonicPage()
 @Component({
   selector: 'page-current-games',
   templateUrl: 'current-games.html',
 })
 export class CurrentGamesPage {
+  error;
 
   gamesList : FirebaseListObservable<any>;
 
@@ -26,9 +27,27 @@ export class CurrentGamesPage {
   this.gamesList=this.af.getGames();
   }
 
-  selectGame(game:string){
-    this.af.currentGame = game;
-    this.navCtrl.setRoot(CharactersPage);
+  selectGame(gameKey:string){
+    this.af.currentGame = gameKey;
+    let currentUser = this.af.currentUser
+    let canPlay=false;
+
+    let players = this.af.getPlayers(gameKey);
+     players.forEach(array => {
+      array.forEach(element => {
+      if(currentUser==element.playerId){
+         this.af.selectedCharacter = this.userProvider.getCharacter(currentUser,element.character)
+       // canPlay = true;
+        console.log(this.af.selectedCharacter)
+      }  
+      });
+    });
+    if (canPlay) {
+    this.navCtrl.push(PlayingTabsPage);
+      
+    } else {
+      this.error = 'You were not invited to this game'
+    }
   }
 
 }

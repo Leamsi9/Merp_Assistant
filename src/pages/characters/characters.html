@@ -6,23 +6,21 @@
 -->
 <ion-header>
   <ion-navbar>
-    <button clear color="dark" role="img" (click)="goBack()" ion-button col-1 menuClose>
+    <!--<button clear color="dark" role="img" (click)="goBack()" ion-button col-1 menuClose>
       <ion-icon col-7 name="arrow-back"> </ion-icon>
-    </button>
+    </button> -->
     <ion-title>Characters</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-
+<button ion-button color="dark" class="btn btn-default" (click)="selectCharacter(null)">New Character</button>
   <div class="tabl-responsive ">
   <table class="table table-hover">
       <tr *ngFor="let character of characters | async" >
-
-        <td class="" (click)="setSelectedCharacter(character)">{{character.name}}</td>
+        <td class="" (click)="selectCharacter(character)">{{character.name}}</td>
         <td><button class="btn btn-danger " hidden="true" (click)="deleteCharacter(character)"> Delete</button></td>
-
       </tr>
   </table>    
 </div>

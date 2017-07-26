@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
 import { FirebaseListObservable} from 'angularfire2/database';
+import { CharactersPage} from '../../pages/characters/characters';
 
 /**
  * Generated class for the InvitesPage page.
@@ -21,11 +22,21 @@ export class InvitesPage {
   private playerInvites : FirebaseListObservable<any>;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private af:AF) {
-    this.playerInvites = this.af.getInvitesByUser();
+  this.playerInvites = this.af.getPlayerInvites()
+  console.log(this.playerInvites)  
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad InvitesPage');
+  deleteInvite(invite:any){
+   this.af.deleteInvite(invite.$key); 
+  }
+
+  joinGame(gameKey:string){
+    this.af.currentGame = gameKey;
+    this.navCtrl.push(CharactersPage)
+  }
+
+  getUserIcon(uid){
+    return this.af.getProfilePic(uid);
   }
 
 }

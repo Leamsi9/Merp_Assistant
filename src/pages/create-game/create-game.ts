@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
 import { UserProvider } from './../../providers/user/user';
 import { FirebaseListObservable} from 'angularfire2/database';
+import { CurrentGamesPage} from '../../pages/current-games/current-games';
 /**
  * Generated class for the CreateGamePage page.
  *
@@ -43,26 +44,24 @@ export class CreateGamePage {
         players:null
       }
       let gameKey = this.games.push(game).key;
-      this.notifyPlayerInvite(this.players,gameKey)
+      this.notifyPlayerInvite(this.players,gameKey,this.gameName,this.af.user.displayName)
       this.error=null
+      this.navCtrl.push(CurrentGamesPage)
     }else{
       this.error = 'Game Name and Players cannot be empty'
     }
   }
 
-  notifyPlayerInvite(players:string[],gamekey:string){
-      let invites = this.af.getInvites()
+  notifyPlayerInvite(players:string[],gamekey:string,gameName:string,gameMasterName:string){
+  
     players.forEach(element => {
       let playerInvite = {
-        game:gamekey,
-        player:element
+        gameMaster:gameMasterName,
+        gameKey:gamekey,
+        gameName:gameName
       }
-      invites.push(playerInvite)
+      this.af.pushGameInvite(element,playerInvite)
     });
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad CreateGamePage');
   }
 
 }

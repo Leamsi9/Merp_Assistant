@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
+import { AF } from './../../providers/af';
 
 /**
  * Generated class for the TablePage page.
@@ -14,11 +15,15 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class TablePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,private af:AF) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad TablePage');
+  }
+
+  gameIsLoaded(){
+    return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
   }
 
 }

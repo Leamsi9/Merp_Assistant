@@ -4,7 +4,6 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AF } from './../../providers/af';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { PlayingTabsPage } from '../../pages/playing-tabs/playing-tabs';
-import { CurrentGamesPage} from '../../pages/current-games/current-games';
 
 
 
@@ -30,14 +29,20 @@ export class CharactersPage {
     this.af.deleteCharacter(char);
   }
 
-  setSelectedCharacter(character){
-    this.af.selectedCharacter = character;
-   // this.af.setCharacterInCurrentGame();
+  selectCharacter(character){
+    if(character==null){
+    this.af.joinGame(null)
     this.goPlayingPages();
+    }else{
+      this.af.selectedCharacter = character
+      this.af.joinGame(character.$key)
+      this.goPlayingPages()
+    }
   }
 
   goBack(){
-    this.navCtrl.setRoot(CurrentGamesPage)
+    console.log(this.navCtrl.canGoBack())
+   // this.navCtrl.setRoot(this.navCtrl.getPrevious().component)
   }
 
 }

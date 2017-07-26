@@ -1,7 +1,7 @@
 
 <ion-header>
   <ion-navbar>
-    <button role="img" ion-button col-2 menuToggle>
+    <button role="img" ion-button col-2 menuToggle (click)="openMenu()">
       <ion-icon col-7 class=""> <img [src]="menuIcon"> </ion-icon>
     </button>
     <ion-title>Playing Board</ion-title>
@@ -9,12 +9,10 @@
 </ion-header>
 
 <ion-content padding>
-<ion-tabs *ngIf="gameIsLoaded()">
-    <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="beer"></ion-tab>
-    <ion-tab [root]="tableRoot" tabTitle="Table" tabIcon="bonfire"></ion-tab>
+<ion-tabs >
     <ion-tab [root]="charSheetRoot" tabTitle="Character" tabIcon="walk"></ion-tab>
+    <ion-tab [root]="tableRoot" tabTitle="Table" tabIcon="bonfire"></ion-tab>
+    <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="beer"></ion-tab>
 </ion-tabs>
-  <ion-item no-lines offset-3 *ngIf="!gameIsLoaded()">
-    <h2>No Game Loaded</h2>
-  </ion-item>
+ 
 </ion-content>

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {AF} from './../../providers/af';
 import { NavController,MenuController } from 'ionic-angular';
-import { HomePage} from './../../pages/home/home'
 
 
 @Component({
@@ -244,5 +243,9 @@ public updateResutls(value:number,stat:string){
 		var component = this.navCtl.getType();
 		return 	component == 'portal' ;
 	}
+
+	openMenu(){ 
+   		this.menuCtl.open();
+  	}
 
 }

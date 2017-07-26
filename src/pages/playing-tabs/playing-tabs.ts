@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { IonicPage, NavController,MenuController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { TablePage } from '../table/table';
 import { CharacterSheet } from '../character-sheet/character-sheet';
@@ -18,7 +18,7 @@ import { AF } from './../../providers/af';
 @IonicPage()
 export class PlayingTabsPage {
 
-  constructor(public navCtrl: NavController, public af:AF) {
+  constructor(public navCtrl: NavController, public af:AF,public menu : MenuController) {
     this.chatRoot = ChatPage;
     this.charSheetRoot = CharacterSheet;
     this.tableRoot = TablePage;
@@ -34,6 +34,10 @@ export class PlayingTabsPage {
     return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
   }
 
-
+  openMenu(){ 
+    //this.menu.isOpen()
+    //console.log(this.menu.getMenus())
+   // this.navCtrl.setRoot(HomePage);
+  }
 
 }

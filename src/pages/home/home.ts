@@ -23,12 +23,12 @@ export class HomePage  {
   }
  
   goCharacterSheet(){
+    this.af.selectedCharacter=null;
     let modal = this.modalCtrl.create(CharacterSheet);
      modal.present();
   }
   goCharactersPage(){
-     let modal = this.modalCtrl.create(CharactersPage);
-     modal.present();
+    this.navCtrl.push(CharactersPage)
   }
 
 
