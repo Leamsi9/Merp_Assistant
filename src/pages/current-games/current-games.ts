@@ -35,15 +35,19 @@ export class CurrentGamesPage {
     let players = this.af.getPlayers(gameKey);
      players.forEach(array => {
       array.forEach(element => {
-      if(currentUser==element.playerId){
+    //  if(currentUser == element.gameMaster){
+    //    canPlay= true;
+    //  }  
+    // else 
+        if (currentUser==element.playerId){
          this.af.selectedCharacter = this.userProvider.getCharacter(currentUser,element.character)
-       // canPlay = true;
-        console.log(this.af.selectedCharacter)
+         canPlay = true;
+         console.log(this.af.selectedCharacter)
       }  
       });
     });
     if (canPlay) {
-    this.navCtrl.push(PlayingTabsPage);
+    this.navCtrl.setRoot(PlayingTabsPage);
       
     } else {
       this.error = 'You were not invited to this game'

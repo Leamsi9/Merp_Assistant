@@ -15,8 +15,10 @@ export class CharacterSheet  {
 		var character = this.afService.selectedCharacter
 		if(character==null){
 			this.resetSheet()
+			this.result = this.getResult()
 		}else{
 			this.loadCharacter(character)
+			this.result = this.getResult()
 		}
 	}
 
@@ -75,32 +77,8 @@ public coin = [{state:''},
 					{state:'Fail'},
 					{state:'Succes'}];
 
-public result =	   [{attr:'noArmour',ability5: 5 *this.MOVEMENT.NA,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RNA,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BNA,stat:this.STATS.AGI},
-					{attr:'leather',ability5: 5 *this.MOVEMENT.LE,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RLE,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BLE,stat:this.STATS.AGI},
-					{attr:'hardenLeather',ability5: 5 *this.MOVEMENT.HL,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RHL,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BHL,stat:this.STATS.AGI},
-					{attr:'chainMail',ability5: 5 *this.MOVEMENT.CM,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RCM,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BCM,stat:this.STATS.STR,},
-					{attr:'plate',ability5: 5 *this.MOVEMENT.PL,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RPL,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BPL,stat:this.STATS.STR},
-					{attr:'health',ability5: this.HEALTH.HP ,ability2: 0,reduction: this.HEALTH.RHP,bonusItem: 0,bonusMix: this.HEALTH.BHP,stat:this.STATS.CON},
-					{attr:'perception',ability5: 5 *this.PERCEPTION.PR,ability2: 2 *0,reduction: 5 *this.PERCEPTION.RPR,bonusItem: 5 *0,bonusMix: 5 *this.PERCEPTION.BPR,stat:0},
-					{attr:'edge',ability5: 5 *this.WEAPONS.ED,ability2: 2 *this.WEAPONS.ED2,reduction: 5 *this.WEAPONS.RED,bonusItem: 5 *this.WEAPONS.BIED,bonusMix: 5 *this.WEAPONS.BMED,stat:this.STATS.STR},
-					{attr:'blunt',ability5: 5 *this.WEAPONS.BL,ability2: 2 *this.WEAPONS.BL2,reduction: 5 *this.WEAPONS.RBL,bonusItem: 5 *this.WEAPONS.BIBL,bonusMix: 5 *this.WEAPONS.BMBL,stat:this.STATS.STR},
-					{attr:'twoHanded',ability5: 5 *this.WEAPONS.TH,ability2: 2 *this.WEAPONS.TH2,reduction: 5 *this.WEAPONS.RTH,bonusItem: 5 *this.WEAPONS.BITH,bonusMix: 5 *this.WEAPONS.BMTH,stat:this.STATS.STR},
-					{attr:'throw',ability5: 5 *this.WEAPONS.THR,ability2: 2 *this.WEAPONS.THR2,reduction: 5 *this.WEAPONS.RTHR,bonusItem: 5 *this.WEAPONS.BITHR,bonusMix: 5 *this.WEAPONS.BMTHR,stat:this.STATS.AGI},
-					{attr:'projectile',ability5: 5 *this.WEAPONS.PRO,ability2: 2 *this.WEAPONS.PRO2,reduction: 5 *this.WEAPONS.RPRO,bonusItem: 5 *this.WEAPONS.BIPRO,bonusMix: 5 *this.WEAPONS.BMPRO,stat:this.STATS.AGI},
-					{attr:'pole',ability5: 5 *this.WEAPONS.PO,ability2: 2 *this.WEAPONS.PO2,reduction: 5 *this.WEAPONS.RPO,bonusItem: 5 *this.WEAPONS.BIPO,bonusMix: 5 *this.WEAPONS.BMPO,stat:this.STATS.STR},
-					{attr:'climbing',ability5: 5 *this.GENERALS.CL,ability2: 2 *this.GENERALS.CL2,reduction: 5 *this.GENERALS.RCL,bonusItem: 5 *this.GENERALS.BICL,bonusMix: 5 *this.GENERALS.BMCL,stat:this.STATS.AGI},
-					{attr:'riding',ability5: 5 *this.GENERALS.RD,ability2: 2 *this.GENERALS.RD2,reduction: 5 *this.GENERALS.RRD,bonusItem: 5 *this.GENERALS.BIRD,bonusMix: 5 *this.GENERALS.BMRD,stat:this.STATS.I},
-					{attr:'swiming',ability5: 5 *this.GENERALS.SW,ability2: 2 *this.GENERALS.SW2,reduction: 5 *this.GENERALS.RSW,bonusItem: 5 *this.GENERALS.BISW,bonusMix: 5 *this.GENERALS.BMSW,stat:this.STATS.AGI},
-					{attr:'tracking',ability5: 5 *this.GENERALS.TR,ability2: 2 *this.GENERALS.TR2,reduction: 5 *this.GENERALS.RTR,bonusItem: 5 *this.GENERALS.BITR,bonusMix: 5 *this.GENERALS.BMTR,stat:this.STATS.INT},
-					{attr:'ambush',ability5: 5 *this.SUBTREFUGE.AM,ability2: 2 *this.SUBTREFUGE.AM2,reduction: 5 *this.SUBTREFUGE.RAM,bonusItem: 5 *this.SUBTREFUGE.BIAM,bonusMix: 5 *this.SUBTREFUGE.BMAM,stat:0},
-					{attr:'stalk',ability5: 5 *this.SUBTREFUGE.SH,ability2: 2 *this.SUBTREFUGE.SH2,reduction: 5 *this.SUBTREFUGE.RSH,bonusItem: 5 *this.SUBTREFUGE.BISH,bonusMix: 5 *this.SUBTREFUGE.BMSH,stat:this.STATS.PRE},
-					{attr:'lockpicking',ability5: 5 *this.SUBTREFUGE.LP,ability2: 2 *this.SUBTREFUGE.LP2,reduction: 5 *this.SUBTREFUGE.RLP,bonusItem: 5 *this.SUBTREFUGE.BILP,bonusMix: 5 *this.SUBTREFUGE.BMLP,stat:this.STATS.INT},
-					{attr:'disarmTraps',ability5: 5 *this.SUBTREFUGE.DT,ability2: 2 *this.SUBTREFUGE.DT2,reduction: 5 *this.SUBTREFUGE.RDT,bonusItem: 5 *this.SUBTREFUGE.BIDT,bonusMix: 5 *this.SUBTREFUGE.BMDT,stat:this.STATS.I},
-					{attr:'runes',ability5: 5 *this.MAGIC.RN,ability2: 2 *this.MAGIC.RN2,reduction: 5 *this.MAGIC.RRN,bonusItem: 5 *this.MAGIC.BIRN,bonusMix: 5 *this.MAGIC.BMRN,stat:this.STATS.INT},
-					{attr:'useObject',ability5: 5 *this.MAGIC.UMO,ability2: 2 *this.MAGIC.UMO2,reduction: 5 *this.MAGIC.RUMO,bonusItem: 5 *this.MAGIC.BIUMO,bonusMix: 5 *this.MAGIC.BMUMO,stat:this.STATS.I},
-					{attr:'directedSpell',ability5: 5 *this.MAGIC.DS,ability2: 2 *this.MAGIC.DS2,reduction: 5 *this.MAGIC.RDS,bonusItem: 5 *this.MAGIC.BIDS,bonusMix: 5 *this.MAGIC.BMDS,stat:this.STATS.AGI},
-					{attr:'defense',ability5: 5 *this.DEFENSE.DB,ability2: 2 *0,reduction: 5 *this.DEFENSE.RDB,bonusItem: 5 *0,bonusMix: 5 *this.DEFENSE.BDB,stat:this.STATS.AGI}];
-    
+public result ;
+
 public equipedArmour = 'NA';
 
 public getDiceRoll(dice:number,max:number) {
@@ -176,10 +154,11 @@ public updateResutls(value:number,stat:string){
 	saveCharacter(){
 		this.CHARACTER_KEY = this.afService.saveCharacter(this.CHARACTER_KEY,this.STATS,this.PERCEPTION,
 		this.HEALTH,this.MOVEMENT,this.WEAPONS,this.GENERALS,
-		this.SUBTREFUGE,this.MAGIC,this.DEFENSE,this.NAME)
+		this.SUBTREFUGE,this.MAGIC,this.DEFENSE,this.NAME,this.equipedArmour)
 	}
 
 	loadCharacter(char){
+			
 			console.log(char);
 			this.CHARACTER_KEY = char.$key;
 			this.STATS =char.stats;
@@ -192,6 +171,7 @@ public updateResutls(value:number,stat:string){
 			this.MAGIC =char.magic
 			this.DEFENSE = char.defense
 			this.NAME = char.name
+
 		}
 
 	resetSheet(){
@@ -223,6 +203,8 @@ public updateResutls(value:number,stat:string){
 					UMO:0,UMO2:0,BMUMO:0,BIUMO:0,RUMO:0,
 					DS:0,DS2:0,BMDS:0,BIDS:0,RDS:0};
 		this.DEFENSE = { DB:0,BDB:0,RDB:0};
+
+		this.result = this.getResult()
 	}
 
 
@@ -246,6 +228,34 @@ public updateResutls(value:number,stat:string){
 
 	openMenu(){ 
    		this.menuCtl.open();
-  	}
+	  }
+	
+	getResult(){
+			return [{attr:'noArmour',ability5: 5 *this.MOVEMENT.NA,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RNA,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BNA,stat:this.STATS.AGI},
+					{attr:'leather',ability5: 5 *this.MOVEMENT.LE,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RLE,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BLE,stat:this.STATS.AGI},
+					{attr:'hardenLeather',ability5: 5 *this.MOVEMENT.HL,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RHL,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BHL,stat:this.STATS.AGI},
+					{attr:'chainMail',ability5: 5 *this.MOVEMENT.CM,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RCM,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BCM,stat:this.STATS.STR,},
+					{attr:'plate',ability5: 5 *this.MOVEMENT.PL,ability2: 2 *0,reduction: 5 *this.MOVEMENT.RPL,bonusItem: 5 *0,bonusMix: 5 *this.MOVEMENT.BPL,stat:this.STATS.STR},
+					{attr:'health',ability5: this.HEALTH.HP ,ability2: 0,reduction: this.HEALTH.RHP,bonusItem: 0,bonusMix: this.HEALTH.BHP,stat:this.STATS.CON},
+					{attr:'perception',ability5: 5 *this.PERCEPTION.PR,ability2: 2 *0,reduction: 5 *this.PERCEPTION.RPR,bonusItem: 5 *0,bonusMix: 5 *this.PERCEPTION.BPR,stat:0},
+					{attr:'edge',ability5: 5 *this.WEAPONS.ED,ability2: 2 *this.WEAPONS.ED2,reduction: 5 *this.WEAPONS.RED,bonusItem: 5 *this.WEAPONS.BIED,bonusMix: 5 *this.WEAPONS.BMED,stat:this.STATS.STR},
+					{attr:'blunt',ability5: 5 *this.WEAPONS.BL,ability2: 2 *this.WEAPONS.BL2,reduction: 5 *this.WEAPONS.RBL,bonusItem: 5 *this.WEAPONS.BIBL,bonusMix: 5 *this.WEAPONS.BMBL,stat:this.STATS.STR},
+					{attr:'twoHanded',ability5: 5 *this.WEAPONS.TH,ability2: 2 *this.WEAPONS.TH2,reduction: 5 *this.WEAPONS.RTH,bonusItem: 5 *this.WEAPONS.BITH,bonusMix: 5 *this.WEAPONS.BMTH,stat:this.STATS.STR},
+					{attr:'throw',ability5: 5 *this.WEAPONS.THR,ability2: 2 *this.WEAPONS.THR2,reduction: 5 *this.WEAPONS.RTHR,bonusItem: 5 *this.WEAPONS.BITHR,bonusMix: 5 *this.WEAPONS.BMTHR,stat:this.STATS.AGI},
+					{attr:'projectile',ability5: 5 *this.WEAPONS.PRO,ability2: 2 *this.WEAPONS.PRO2,reduction: 5 *this.WEAPONS.RPRO,bonusItem: 5 *this.WEAPONS.BIPRO,bonusMix: 5 *this.WEAPONS.BMPRO,stat:this.STATS.AGI},
+					{attr:'pole',ability5: 5 *this.WEAPONS.PO,ability2: 2 *this.WEAPONS.PO2,reduction: 5 *this.WEAPONS.RPO,bonusItem: 5 *this.WEAPONS.BIPO,bonusMix: 5 *this.WEAPONS.BMPO,stat:this.STATS.STR},
+					{attr:'climbing',ability5: 5 *this.GENERALS.CL,ability2: 2 *this.GENERALS.CL2,reduction: 5 *this.GENERALS.RCL,bonusItem: 5 *this.GENERALS.BICL,bonusMix: 5 *this.GENERALS.BMCL,stat:this.STATS.AGI},
+					{attr:'riding',ability5: 5 *this.GENERALS.RD,ability2: 2 *this.GENERALS.RD2,reduction: 5 *this.GENERALS.RRD,bonusItem: 5 *this.GENERALS.BIRD,bonusMix: 5 *this.GENERALS.BMRD,stat:this.STATS.I},
+					{attr:'swiming',ability5: 5 *this.GENERALS.SW,ability2: 2 *this.GENERALS.SW2,reduction: 5 *this.GENERALS.RSW,bonusItem: 5 *this.GENERALS.BISW,bonusMix: 5 *this.GENERALS.BMSW,stat:this.STATS.AGI},
+					{attr:'tracking',ability5: 5 *this.GENERALS.TR,ability2: 2 *this.GENERALS.TR2,reduction: 5 *this.GENERALS.RTR,bonusItem: 5 *this.GENERALS.BITR,bonusMix: 5 *this.GENERALS.BMTR,stat:this.STATS.INT},
+					{attr:'ambush',ability5: 5 *this.SUBTREFUGE.AM,ability2: 2 *this.SUBTREFUGE.AM2,reduction: 5 *this.SUBTREFUGE.RAM,bonusItem: 5 *this.SUBTREFUGE.BIAM,bonusMix: 5 *this.SUBTREFUGE.BMAM,stat:0},
+					{attr:'stalk',ability5: 5 *this.SUBTREFUGE.SH,ability2: 2 *this.SUBTREFUGE.SH2,reduction: 5 *this.SUBTREFUGE.RSH,bonusItem: 5 *this.SUBTREFUGE.BISH,bonusMix: 5 *this.SUBTREFUGE.BMSH,stat:this.STATS.PRE},
+					{attr:'lockpicking',ability5: 5 *this.SUBTREFUGE.LP,ability2: 2 *this.SUBTREFUGE.LP2,reduction: 5 *this.SUBTREFUGE.RLP,bonusItem: 5 *this.SUBTREFUGE.BILP,bonusMix: 5 *this.SUBTREFUGE.BMLP,stat:this.STATS.INT},
+					{attr:'disarmTraps',ability5: 5 *this.SUBTREFUGE.DT,ability2: 2 *this.SUBTREFUGE.DT2,reduction: 5 *this.SUBTREFUGE.RDT,bonusItem: 5 *this.SUBTREFUGE.BIDT,bonusMix: 5 *this.SUBTREFUGE.BMDT,stat:this.STATS.I},
+					{attr:'runes',ability5: 5 *this.MAGIC.RN,ability2: 2 *this.MAGIC.RN2,reduction: 5 *this.MAGIC.RRN,bonusItem: 5 *this.MAGIC.BIRN,bonusMix: 5 *this.MAGIC.BMRN,stat:this.STATS.INT},
+					{attr:'useObject',ability5: 5 *this.MAGIC.UMO,ability2: 2 *this.MAGIC.UMO2,reduction: 5 *this.MAGIC.RUMO,bonusItem: 5 *this.MAGIC.BIUMO,bonusMix: 5 *this.MAGIC.BMUMO,stat:this.STATS.I},
+					{attr:'directedSpell',ability5: 5 *this.MAGIC.DS,ability2: 2 *this.MAGIC.DS2,reduction: 5 *this.MAGIC.RDS,bonusItem: 5 *this.MAGIC.BIDS,bonusMix: 5 *this.MAGIC.BMDS,stat:this.STATS.AGI},
+					{attr:'defense',ability5: 5 *this.DEFENSE.DB,ability2: 2 *0,reduction: 5 *this.DEFENSE.RDB,bonusItem: 5 *0,bonusMix: 5 *this.DEFENSE.BDB,stat:this.STATS.AGI}];
+	}
 
 }

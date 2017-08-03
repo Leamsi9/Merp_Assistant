@@ -1,18 +1,8 @@
 import {Injectable, NgZone} from "@angular/core";
 import {AngularFireAuth} from 'angularfire2/auth';
-import {AngularFireDatabase,FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
-import {UserProvider} from  './user/user'
+import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
+import {UserProvider,USER} from  './user/user'
 
-
-export interface USER {
-    providerId: string;
-    uid: string;
-    displayName: string;
-    email: string;
-    photoURL: string;
-    invites:FirebaseListObservable<any[]>;
-    characters : FirebaseListObservable<any[]>;
-};
 
 export interface GAME{
   gameMaster : string ; 
@@ -35,7 +25,7 @@ export class AF {
 
   menuIcon = "https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa"; 
 
-  public selectedCharacter: FirebaseObjectObservable<any>;
+  public selectedCharacter: any;
 
 
   constructor(private ngZone: NgZone,public db: AngularFireDatabase,public  afAuth: AngularFireAuth, public userProvider:UserProvider) {
@@ -63,7 +53,7 @@ export class AF {
              return (this.currentUser!=undefined&&this.currentUser!=null)
   }
 
-  saveCharacter(key:string,stats,perception,health,movement,weapons,generals,subtrefuge,magic,defense,name){  
+  saveCharacter(key:string,stats,perception,health,movement,weapons,generals,subtrefuge,magic,defense,name,armour:string){  
       let keyAtEnd = "";
       if(key==""){
              var characterCreate = {
@@ -78,6 +68,7 @@ export class AF {
                 subtrefuge:subtrefuge,
                 magic:magic,
                 defense:defense,
+                armourType:armour,
                 timestamp:Date.now()
             }
          keyAtEnd = this.user.characters.push(characterCreate).key;
@@ -94,6 +85,7 @@ export class AF {
           subtrefuge:subtrefuge,
           magic:magic,
           defense:defense,
+          armourType:armour,
           timestamp:Date.now()
       }
       this.user.characters.update(key,characterUpdate);
@@ -167,7 +159,7 @@ export class AF {
 					UMO:0,UMO2:0,BMUMO:0,BIUMO:0,RUMO:0,
 					DS:0,DS2:0,BMDS:0,BIDS:0,RDS:0};
     let DEFENSE = { DB:0,BDB:0,RDB:0};
-   return this.saveCharacter("",STATS,PERCEPTION,HEALTH,MOVEMENT,WEAPONS,GENERALS,SUBTREFUGE,MAGIC,DEFENSE,"")
+   return this.saveCharacter("",STATS,PERCEPTION,HEALTH,MOVEMENT,WEAPONS,GENERALS,SUBTREFUGE,MAGIC,DEFENSE,"","")
 	}
 
   getPlayers(gameKey){

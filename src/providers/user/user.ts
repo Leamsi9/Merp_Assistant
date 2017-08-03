@@ -14,7 +14,22 @@ export interface USER {
     photoURL: string;
     invites:FirebaseListObservable<any[]>;
     characters : FirebaseListObservable<any[]>;
+    games: FirebaseListObservable<string[]>
 };
+
+export interface CHARACTER{
+  $key:string;
+  stats : any;
+  perception:any;
+  movement:any;
+  health:any;
+  weapons:any;
+  generals:any;
+  subtrefuge:any;
+  magic:any;
+  defense:any;
+  name:string;
+}
 
 @Injectable()
 export class UserProvider {
@@ -34,6 +49,7 @@ export class UserProvider {
             result.displayName = element.displayName;   
             result.characters = this.db.list('users/'+uid+'/characters');
             result.invites = this.db.list('users/'+uid+'/invites');
+            result.games = this.db.list('users/'+uid+'/games');
     });;
     return result;
   }
@@ -42,7 +58,20 @@ export class UserProvider {
     return this.users;
   }
   getCharacter(uid:string,charId:string){
-  let characterToLoad = this.db.object('users/'+uid+'/characters/'+charId)
+  let characterToLoad = {} as CHARACTER;
+   this.db.object('users/'+uid+'/characters/'+charId).forEach(character =>{
+      characterToLoad.$key = charId
+      characterToLoad.stats = character.stats
+      characterToLoad.perception = character.perception
+      characterToLoad.health = character.health
+      characterToLoad.movement = character.movement
+      characterToLoad.weapons = character.weapons
+      characterToLoad.generals = character.generals
+      characterToLoad.subtrefuge = character.subtrefuge
+      characterToLoad.magic = character.magic
+      characterToLoad.defense = character.defense
+      characterToLoad.name = character.name
+  })
 
     return characterToLoad;
   }
@@ -54,9 +83,15 @@ export class UserProvider {
            email : user.email,
            photoURL : 'https://firebasestorage.googleapis.com/v0/b/merp-64b26.appspot.com/o/diceIcon.png?alt=media&token=a7bcb3e7-0cd1-414c-a403-c192095e16fa',
            invites:null,
-           characters : null
+           characters : null,
+           games:null
           }
     this.users.update(user.uid,userCreate);
+  }
+
+  setGameInUser(user:string,gameKey:string){
+   const gameObsrvable =  this.db.list('users/'+user+'/games')
+   gameObsrvable.push({game: gameKey})
   }
 
  

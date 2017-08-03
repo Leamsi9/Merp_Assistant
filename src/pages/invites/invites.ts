@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
+import { UserProvider} from './../../providers/user/user';
 import { FirebaseListObservable} from 'angularfire2/database';
 import { CharactersPage} from '../../pages/characters/characters';
 
@@ -21,17 +22,19 @@ export class InvitesPage {
 
   private playerInvites : FirebaseListObservable<any>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private af:AF) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private af:AF,private userProv: UserProvider) {
   this.playerInvites = this.af.getPlayerInvites()
   console.log(this.playerInvites)  
   }
 
-  deleteInvite(invite:any){
-   this.af.deleteInvite(invite.$key); 
+  deleteInvite(invite:string){
+   this.af.deleteInvite(invite); 
   }
 
-  joinGame(gameKey:string){
+  joinGame(gameKey:string,inviteKey:string){
     this.af.currentGame = gameKey;
+    this.userProv.setGameInUser(this.af.currentUser,gameKey);
+    this.deleteInvite(inviteKey)
     this.navCtrl.push(CharactersPage)
   }
 
