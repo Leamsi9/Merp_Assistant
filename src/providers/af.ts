@@ -17,7 +17,9 @@ export class AF {
   public email : string;
   public currentUser : string = null;
   public currentGame : string; 
-  public games : FirebaseListObservable<any>;
+  public games : any[] = [];
+  
+  public messages : FirebaseListObservable<any[]>;
    
   user: USER = {} as USER;
 
@@ -31,7 +33,7 @@ export class AF {
   constructor(private ngZone: NgZone,public db: AngularFireDatabase,public  afAuth: AngularFireAuth, public userProvider:UserProvider) {
      db.database.goOnline;
      afAuth.authState;
-     this.games = this.db.list('games')
+     
      }
 
 
@@ -48,7 +50,7 @@ export class AF {
   }
 
   setCurrentUser(user){
-             this.user= this.userProvider.getUser(user.uid)
+             this.user= this.userProvider.getUser(user.uid);
              this.currentUser=user.uid;
              return (this.currentUser!=undefined&&this.currentUser!=null)
   }
@@ -98,12 +100,13 @@ export class AF {
   }
 
   getGames(){
-    return this.games;
+    return this.games
   }
   
   getPlayerInvites(){
     return this.user.invites;
   }
+
   deleteInvite(inviteKey){
     this.user.invites.remove(inviteKey);
   }
@@ -128,9 +131,7 @@ export class AF {
     }
     let players= this.db.list('games/'+this.currentGame+'/players')
     players.push(player);
-  
-
-  }
+   }
 
   newCharacter(){
 		let STATS = {INT:0,AGI:0,PRE:0,CON:0,I:0,STR:0};
@@ -165,5 +166,54 @@ export class AF {
   getPlayers(gameKey){
     return this.db.list('games/'+gameKey+'/players');
   }
+
+  processGame(gameObject:any){
+    this.games = []
+    let gameToLoad = null ;
+     gameObject.forEach(element3 => {     
+         gameToLoad = {
+          gameKey : element3.$key,
+          gameName: element3.gameName,
+          gameMaster: element3.gameMaster,  
+          players: element3.players
+            }
+         this.games.push(gameToLoad);  
+       });
+  }
+  getGameByKey(key:string){
+    let as =  this.db.object('games/'+ key)
+    return as; 
+  }
+
+  getGamesFromUser(){
+  this.db.list('users/'+this.currentUser+'/games').subscribe(element => {
+    element.forEach(element2 => {
+       this.processGame(this.getGameByKey(element2.game))
+       });
+    });
+  }
+ 
+  getAllGames(){
+    return this.db.list('games')
+  }
+
+  setMessages(){
+    this.messages = this.db.list('games/'+this.currentGame+'/messages',{
+      query:{
+        limitToLast:15
+      }
+    })
+  }
+
+  sendMessage(text) {
+    var message = {
+      text: text,
+      user : this.currentUser,
+      displayName: this.user.displayName,
+      time:  new Date().toLocaleString()
+    };
+    this.messages.push(message);
+  }
+
 
 }

@@ -5,7 +5,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { CharacterSheet} from '../pages/character-sheet/character-sheet';
 import { LoginPage } from '../pages/login/login';
 import { LobbyPage} from '../pages/lobby/lobby'
@@ -38,7 +37,6 @@ import { UserProvider } from '../providers/user/user';
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     CharacterSheet,
     LoginPage,
     LobbyPage,
@@ -59,7 +57,6 @@ import { UserProvider } from '../providers/user/user';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     CharacterSheet,
     CharactersPage,

@@ -31,8 +31,8 @@ export class CreateGamePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public af:AF, private usersProvideer:UserProvider) {
   
-  this.games = this.af.getGames();
   this.users = this.usersProvideer.getAllUsers();
+  this.games = this.af.getAllGames();
 
   }
 
@@ -43,6 +43,7 @@ export class CreateGamePage {
         gameName:this.gameName,
         players:null
       }
+      
       let gameKey = this.games.push(game).key;
       this.notifyPlayerInvite(this.players,gameKey,this.gameName,this.af.user.displayName)
       this.error=null

@@ -24,10 +24,10 @@
         </div>
   </div>  
 
- <ion-list> 
-  <ion-item *ngFor="let game of gamesList | async" >
-    <button ion-item (click)="selectGame(game.$key)">{{game.gameName}} </button> 
-  </ion-item>
- </ion-list>
+ 
+  <ion-list no-lines *ngFor="let game of gamesList " >
+    <button ion-item (click)="selectGame(game.gameKey)">{{game.gameName}} </button> 
+  </ion-list>
+
 
 </ion-content>

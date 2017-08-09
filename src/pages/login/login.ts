@@ -62,6 +62,7 @@ export class LoginPage implements OnInit {
                 if(this.af.setCurrentUser(user)){
                 authObserver.unsubscribe();
                 this.navCtrl.setRoot(HomePage);
+                this.af.getGamesFromUser()
                 }
                 else {
                 authObserver.unsubscribe();
@@ -77,6 +78,7 @@ export class LoginPage implements OnInit {
                 if(this.af.setCurrentUser(user)){
                 authObserver.unsubscribe();
                 this.navCtrl.setRoot(HomePage);
+                this.af.getGamesFromUser()
                 }
                 else {
                 authObserver.unsubscribe();

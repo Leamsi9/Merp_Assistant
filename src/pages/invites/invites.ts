@@ -34,6 +34,7 @@ export class InvitesPage {
   joinGame(gameKey:string,inviteKey:string){
     this.af.currentGame = gameKey;
     this.userProv.setGameInUser(this.af.currentUser,gameKey);
+    this.af.getGamesFromUser();
     this.deleteInvite(inviteKey)
     this.navCtrl.push(CharactersPage)
   }

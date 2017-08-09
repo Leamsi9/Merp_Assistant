@@ -19,7 +19,7 @@ export class HomePage  {
   public characters: FirebaseListObservable<any>;
 
   constructor(public modalCtrl:ModalController ,public afAuth:AngularFireAuth ,public navCtrl: NavController, private af:AF, public userProvider:UserProvider) {
-  
+   this.af.getGamesFromUser();
   }
  
   goCharacterSheet(){

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AF } from './../../providers/af';
 import { UserProvider } from './../../providers/user/user';
-import { FirebaseListObservable} from 'angularfire2/database';
 import { PlayingTabsPage } from '../../pages/playing-tabs/playing-tabs';
 
 
@@ -19,12 +18,13 @@ export interface GAME{
 export class CurrentGamesPage {
   error;
 
-  gamesList : FirebaseListObservable<any>;
+  gamesList : any;
 
   public menuIcon: string = this.af.menuIcon ;
   
   constructor(public navCtrl: NavController, public navParams: NavParams, private af:AF,private userProvider:UserProvider) {
-  this.gamesList=this.af.getGames();
+  this.gamesList= this.af.games
+  console.log(this.gamesList)
   }
 
   selectGame(gameKey:string){

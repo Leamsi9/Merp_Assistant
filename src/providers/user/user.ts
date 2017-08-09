@@ -5,7 +5,6 @@ import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database'
 
 
 
-
 export interface USER {
     providerId: string;
     uid: string;
@@ -14,8 +13,12 @@ export interface USER {
     photoURL: string;
     invites:FirebaseListObservable<any[]>;
     characters : FirebaseListObservable<any[]>;
-    games: FirebaseListObservable<string[]>
+    games: FirebaseListObservable<GAME_PER_USER[]>
 };
+
+export interface GAME_PER_USER{
+ game:string
+}
 
 export interface CHARACTER{
   $key:string;
@@ -92,6 +95,7 @@ export class UserProvider {
   setGameInUser(user:string,gameKey:string){
    const gameObsrvable =  this.db.list('users/'+user+'/games')
    gameObsrvable.push({game: gameKey})
+
   }
 
  
