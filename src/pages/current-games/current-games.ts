@@ -35,10 +35,10 @@ export class CurrentGamesPage {
     let players = this.af.getPlayers(gameKey);
      players.forEach(array => {
       array.forEach(element => {
-    //  if(currentUser == element.gameMaster){
-    //    canPlay= true;
-    //  }  
-    // else 
+     if(currentUser == element.gameMaster){
+        canPlay= true;
+      }  
+     else 
         if (currentUser==element.playerId){
          this.af.selectedCharacter = this.userProvider.getCharacter(currentUser,element.character)
          canPlay = true;

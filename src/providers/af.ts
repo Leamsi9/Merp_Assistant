@@ -205,6 +205,10 @@ export class AF {
     })
   }
 
+  getAllMessages(){
+    return this.db.list('games/'+this.currentGame+'/messages')
+  }
+
   sendMessage(text) {
     var message = {
       text: text,

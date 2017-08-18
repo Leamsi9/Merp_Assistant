@@ -46,6 +46,7 @@ export class CreateGamePage {
       
       let gameKey = this.games.push(game).key;
       this.notifyPlayerInvite(this.players,gameKey,this.gameName,this.af.user.displayName)
+      this.usersProvideer.setGameInUser(this.af.currentUser,gameKey)
       this.error=null
       this.navCtrl.push(CurrentGamesPage)
     }else{
@@ -54,14 +55,15 @@ export class CreateGamePage {
   }
 
   notifyPlayerInvite(players:string[],gamekey:string,gameName:string,gameMasterName:string){
-  
     players.forEach(element => {
+      if (element!= this.af.currentUser) {  
       let playerInvite = {
         gameMaster:gameMasterName,
         gameKey:gamekey,
         gameName:gameName
       }
       this.af.pushGameInvite(element,playerInvite)
+      }
     });
   }
 

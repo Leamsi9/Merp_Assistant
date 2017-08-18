@@ -19,7 +19,8 @@ export class ChatPage {
 
   public messages: FirebaseListObservable<any[]>
   public currentUser ; 
-  public messageToSend:string;
+  public messageToSend:string = '';
+  public hideTime = true;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private af:AF) {
     if(this.gameIsLoaded()){
@@ -34,14 +35,14 @@ export class ChatPage {
     return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
   }
   sendMessage(){
-    if (this.messageToSend!=''){
+    if (this.messageToSend.match('\s+') ){
       this.af.sendMessage(this.messageToSend);
       this.messageToSend = ''
     }
   }
 
   parseDate(date:string){
-    let fechaYHora = date.split(' ')
+    let fechaYHora:string[] = date.split(' ')
     let horaYminutos = fechaYHora[1].split(':')
     return horaYminutos[0]+':'+horaYminutos[1]
   }
