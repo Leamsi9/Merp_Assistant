@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
+import { SQLite} from '@ionic/cli-plugin-cordova';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -12,6 +13,7 @@ import { CreateGamePage} from '../pages/create-game/create-game';
 import { CurrentGamesPage} from '../pages/current-games/current-games';
 import { PlayingTabsPage } from '../pages/playing-tabs/playing-tabs';
 import { InvitesPage} from '../pages/invites/invites';
+import { CritsAndDmgPage} from '../pages/crits-and-dmg/crits-and-dmg'
 
 
 @Component({
@@ -33,6 +35,7 @@ export class MyApp {
       this.pages = [
         { title: 'Home', component: HomePage },
         { title: 'Table', component: PlayingTabsPage },
+        { title: 'Damage & Critical', component: CritsAndDmgPage },
         { title: 'Create Game', component: CreateGamePage},
         { title: 'Current Games', component: CurrentGamesPage},
         { title: 'Game Invites', component: InvitesPage}        
@@ -61,6 +64,11 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      
+     // let db = new SQLite();
+     // db.openDataBase({name:"data.db",location:"default"}).then(()=>{
+     //   db.executeSql("CREATE TABLE IF NOT EXISTS   ")
+     // })
     });
   }
 

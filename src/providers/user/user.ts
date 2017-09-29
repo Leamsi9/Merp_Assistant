@@ -32,6 +32,7 @@ export interface CHARACTER{
   magic:any;
   defense:any;
   name:string;
+  armourType:string;
 }
 
 @Injectable()
@@ -57,6 +58,10 @@ export class UserProvider {
     return result;
   }
 
+  getUserDisplayName(uid){
+    return this.db.object('users/'+uid+'/displayName')
+  }
+
   getAllUsers(){
     return this.users;
   }
@@ -73,6 +78,7 @@ export class UserProvider {
       characterToLoad.subtrefuge = character.subtrefuge
       characterToLoad.magic = character.magic
       characterToLoad.defense = character.defense
+      characterToLoad.armourType = character.armourType
       characterToLoad.name = character.name
   })
 

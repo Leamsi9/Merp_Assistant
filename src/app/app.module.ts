@@ -13,9 +13,11 @@ import { PlayingTabsPage } from '../pages/playing-tabs/playing-tabs';
 import { PlayingTabsPageModule } from '../pages/playing-tabs/playing-tabs.module';
 import { TablePage } from '../pages/table/table';
 import { ChatPage} from '../pages/chat/chat';
+import { NotesPage } from '../pages/notes/notes';
 import { CreateGamePage} from '../pages/create-game/create-game';
 import { CurrentGamesPageModule} from '../pages/current-games/current-games.module';
 import { InvitesPage} from '../pages/invites/invites';
+import { CritsAndDmgPage} from '../pages/crits-and-dmg/crits-and-dmg'
 
 
 
@@ -42,7 +44,8 @@ import { UserProvider } from '../providers/user/user';
     LobbyPage,
     CharactersPage,
     CreateGamePage,
-    InvitesPage
+    InvitesPage,
+    CritsAndDmgPage
   ],
   imports: [
     BrowserModule,
@@ -64,8 +67,10 @@ import { UserProvider } from '../providers/user/user';
     PlayingTabsPage,
     ChatPage,
     TablePage,
+    NotesPage,
     CreateGamePage,
-    InvitesPage
+    InvitesPage,
+    CritsAndDmgPage
   ],
   providers: [
     AF,

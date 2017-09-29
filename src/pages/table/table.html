@@ -1,6 +1,22 @@
 
-<ion-content padding>
  <ion-item no-lines offset-3 *ngIf="!gameIsLoaded()">
-    <h2>No Game Loaded</h2>
+   <h2>No Game Loaded</h2>
   </ion-item>
+<ion-content >
+  <ion-list *ngFor="let user of usersToDisplay " [ngClass]="{selected: isSelectedCharacter(user.character.$key)}" class="">
+      <ion-card (click)='selectToReview(user.character,user.userId)' >
+        <ion-card-header>
+          Character: {{user.character.name}}
+        </ion-card-header>
+        <ion-list>
+          <span ion-item >Health: {{sumHP(user.character)}}</span>
+
+          <span ion-item >Perception: {{sumPerception(user.character.perception)}}</span>
+
+          <span ion-item >Defense: {{sumDefense(user.character)}}</span>
+
+          <span ion-item >Armour Type: {{user.character.armourType}}</span>
+        </ion-list>
+      </ion-card>  
+  </ion-list>
 </ion-content>

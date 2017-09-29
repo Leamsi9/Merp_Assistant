@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController,MenuController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { TablePage } from '../table/table';
+import { NotesPage } from '../notes/notes';
 import { CharacterSheet } from '../character-sheet/character-sheet';
 import { AF } from './../../providers/af';
 
@@ -22,16 +23,21 @@ export class PlayingTabsPage {
     this.chatRoot = ChatPage;
     this.charSheetRoot = CharacterSheet;
     this.tableRoot = TablePage;
+    this.notesRoot = NotesPage;
   }
 
   chatRoot : any;
   tableRoot : any;
   charSheetRoot : any;
+  notesRoot:any;
 
   public menuIcon: string = this.af.menuIcon ;
 
   gameIsLoaded(){
     return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
+  }
+  isGM(){
+    return this.af.isGameMaster()
   }
 
   openMenu(){ 

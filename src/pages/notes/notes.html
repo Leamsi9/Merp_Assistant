@@ -1,0 +1,23 @@
+
+
+<ion-item no-lines offset-3 *ngIf="!gameIsLoaded()">
+    <h2>No Game Loaded</h2>
+  </ion-item>
+   
+   
+ <ion-content padding class="content-stable" #content *ngIf="gameIsLoaded()">
+  <ion-list *ngFor="let note of notes | async"  class="messages">
+ 
+         <div class="message" >
+           <span>
+            {{ note.text }}
+           </span>
+         </div>
+ 
+ 
+  </ion-list>
+       <ion-input type="text" class="chat-input" placeholder="Write your note here..." (keydown.enter)="sendNote()" [(ngModel)]="noteToSend" ></ion-input>
+       
+       <button ion-item class="btn-chat" (click)="sendNote()">Send</button>
+ 
+ </ion-content>

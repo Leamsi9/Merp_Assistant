@@ -1,0 +1,68 @@
+
+<ion-header>
+  <ion-navbar>
+      <ion-icon col-1  menuToggle item-start class="m-0 p-0"> <img [src]="menuIcon"> </ion-icon>
+    <ion-title>Damage & Critical Tables</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  
+  <ion-item>
+    <ion-label>Damage Table : </ion-label>
+    <ion-select popover (ionChange)='loadDmgTable()' [(ngModel)]="selectedDamageTable">
+      <ion-option *ngFor='let option of dmgTablesList' [value]="option.tableName"> {{option.tableName}} </ion-option>
+    </ion-select>
+  </ion-item>
+
+    <ion-item  class ="p-0 m-0" *ngIf='dmgTableIsLoaded()'>
+      <ion-grid  >
+        <ion-row justify-content-around> 
+          <ion-col  col-2>
+            Roll
+          </ion-col>
+          <ion-col col-1>
+            PL
+          </ion-col>
+          <ion-col col-1>
+            CH
+          </ion-col>
+          <ion-col col-1>
+            HL
+          </ion-col>
+          <ion-col col-1 >
+            SL
+          </ion-col>
+          <ion-col col-1>
+            NA
+          </ion-col>
+        </ion-row>
+        <ion-row justify-content-around *ngFor='let row of currentDmgTable'>
+          <ion-col col-2>
+            {{row.roll}}
+          </ion-col>
+          <ion-col col-1>
+            {{row.PL}}
+          </ion-col>
+          <ion-col col-1>
+            {{row.CH}}
+          </ion-col>
+          <ion-col col-1>
+            {{row.HL}}
+          </ion-col>
+          <ion-col col-1>
+            {{row.SL}}
+          </ion-col>
+          <ion-col col-1>
+            {{row.NA}}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-item  class ="p-0 m-0" *ngIf='critTableIsLoaded()'>
+
+    </ion-item>
+  
+</ion-content>

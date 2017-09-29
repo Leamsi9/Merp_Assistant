@@ -90,7 +90,9 @@ public  armourType(type:string) {
     }
 
 public setEquipedArmour(armour:string){
-      this.equipedArmour = armour;
+		if(!this.afService.isGameMaster()){
+	  		this.equipedArmour = armour;
+		}
     }
 
 public setStats(ability5:number,ability2:number,bonusMix:number,bonusItem:number,reduction:number, response:number){
@@ -152,9 +154,12 @@ public updateResutls(value:number,stat:string){
 	};
 
 	saveCharacter(){
-		this.CHARACTER_KEY = this.afService.saveCharacter(this.CHARACTER_KEY,this.STATS,this.PERCEPTION,
-		this.HEALTH,this.MOVEMENT,this.WEAPONS,this.GENERALS,
-		this.SUBTREFUGE,this.MAGIC,this.DEFENSE,this.NAME,this.equipedArmour)
+		if(!this.afService.isGameMaster()){
+			
+			this.CHARACTER_KEY = this.afService.saveCharacter(this.CHARACTER_KEY,this.STATS,this.PERCEPTION,
+			this.HEALTH,this.MOVEMENT,this.WEAPONS,this.GENERALS,
+			this.SUBTREFUGE,this.MAGIC,this.DEFENSE,this.NAME,this.equipedArmour)
+		}
 	}
 
 	loadCharacter(char){
@@ -162,19 +167,21 @@ public updateResutls(value:number,stat:string){
 			console.log(char);
 			this.CHARACTER_KEY = char.$key;
 			this.STATS =char.stats;
-			this.PERCEPTION = char.perception
+			this.PERCEPTION = char.perception;
 			this.HEALTH = char.health;
-			this.MOVEMENT = char.movement
-			this.WEAPONS = char.weapons 
-			this.GENERALS =char.generals
-			this.SUBTREFUGE =char.subtrefuge
-			this.MAGIC =char.magic
-			this.DEFENSE = char.defense
-			this.NAME = char.name
+			this.MOVEMENT = char.movement;
+			this.WEAPONS = char.weapons;
+			this.GENERALS =char.generals;
+			this.SUBTREFUGE =char.subtrefuge;
+			this.MAGIC =char.magic;
+			this.DEFENSE = char.defense;
+			this.NAME = char.name;
+			this.equipedArmour = char.armourType;
 
 		}
 
 	resetSheet(){
+		if(!this.afService.isGameMaster()){
 		this.CHARACTER_KEY="";
 		this.NAME ="";
 		this.STATS = {INT:0,AGI:0,PRE:0,CON:0,I:0,STR:0};
@@ -205,6 +212,7 @@ public updateResutls(value:number,stat:string){
 		this.DEFENSE = { DB:0,BDB:0,RDB:0};
 
 		this.result = this.getResult()
+		}
 	}
 
 

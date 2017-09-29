@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Content } from 'ionic-angular';
 import { NavController, NavParams } from 'ionic-angular';
 import {FirebaseListObservable} from 'angularfire2/database';
 import { AF } from './../../providers/af';
@@ -14,13 +15,16 @@ import { AF } from './../../providers/af';
 @Component({
   selector: 'page-chat',
   templateUrl: 'chat.html',
+
 })
 export class ChatPage {
+
+  @ViewChild(Content) content: Content;
 
   public messages: FirebaseListObservable<any[]>
   public currentUser ; 
   public messageToSend:string = '';
-  public hideTime = true;
+  public hideTime = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private af:AF) {
     if(this.gameIsLoaded()){
@@ -30,21 +34,36 @@ export class ChatPage {
     } 
   
   }
+ 
+  ionViewDidEnter() {
+      this.content.scrollToBottom();
+    }
+  
 
   gameIsLoaded(){
-    return (this.af.currentGame!=null&&this.af.currentGame!=undefined)
-  }
+    let result =  (this.af.currentGame!=null)&&(this.af.currentGame!=undefined)
+    return result
+}
   sendMessage(){
-    if (this.messageToSend.match('\s+') ){
+    if (this.messageToSend.match('\s') ){
       this.af.sendMessage(this.messageToSend);
-      this.messageToSend = ''
+      this.messageToSend = '';
+      this.ionViewDidEnter()
     }
+  }
+  
+
+
+  loadAllMessages(){
+    this.messages = this.af.getAllMessages()
   }
 
   parseDate(date:string){
-    let fechaYHora:string[] = date.split(' ')
-    let horaYminutos = fechaYHora[1].split(':')
-    return horaYminutos[0]+':'+horaYminutos[1]
+    if(date!=null&&date!=undefined){
+      let fechaYHora:string[] = date.split(' ')
+      let horaYminutos = fechaYHora[1].split(':')
+      return horaYminutos[0]+':'+horaYminutos[1]
+    }
   }
 
   showDisplayName(displayName:string){
@@ -54,5 +73,4 @@ export class ChatPage {
     }
     return result;
   }
-
 }

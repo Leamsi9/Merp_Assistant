@@ -6,9 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <button role="img" ion-button col-2 menuToggle>
-      <ion-icon col-7 class=""> <img [src]="menuIcon"> </ion-icon>
-    </button>
+      <ion-icon col-2 menuToggle class="m-0 p-0"> <img [src]="menuIcon"> </ion-icon>
     <ion-title>Current Games</ion-title>
   </ion-navbar>
 </ion-header>
@@ -26,7 +24,7 @@
 
  
   <ion-list no-lines *ngFor="let game of gamesList " >
-    <button ion-item (click)="selectGame(game.gameKey)">{{game.gameName}} </button> 
+    <button ion-item (click)="selectGame(game.gameKey , game.gameMaster)">{{game.gameName}} </button> 
   </ion-list>
 
 

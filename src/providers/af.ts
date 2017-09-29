@@ -4,10 +4,18 @@ import {AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database'
 import {UserProvider,USER} from  './user/user'
 
 
+
 export interface GAME{
   gameMaster : string ; 
   gameName:string;
   players : FirebaseListObservable<any[]>;
+  messages: FirebaseListObservable<any[]>;
+  notes : FirebaseListObservable<any[]>;
+}
+
+export interface USER_TO_DISPLAY{
+  userId:string;
+  character:any;
 }
 
 @Injectable()
@@ -18,8 +26,13 @@ export class AF {
   public currentUser : string = null;
   public currentGame : string; 
   public games : any[] = [];
+
+  private isGM = false;
   
   public messages : FirebaseListObservable<any[]>;
+  public notes : FirebaseListObservable<any[]>;
+
+  public usersToDisplay : USER_TO_DISPLAY[];
    
   user: USER = {} as USER;
 
@@ -41,10 +54,14 @@ export class AF {
         this.ngZone.run( () => {} );
   }
 
+  setUsersToDisplay(listOfUsers:USER_TO_DISPLAY[]){
+    this.usersToDisplay = listOfUsers;
+  }
+
   getCharacters(){
-//    this.userSubject.next(this.currentUser);
     return this.user.characters;
   }
+  
   getProfilePic(uid:string){
     return this.db.object('users/'+uid+'/photoURL');
   }
@@ -119,14 +136,16 @@ export class AF {
   joinGame(characterKey:string){
     let player ;
     if(characterKey == null){
+      let newChar = this.newCharacter()
         player = {
           playerId: this.currentUser,
-          character : this.newCharacter()
+          character : newChar
        }
+       this.selectedCharacter =this.userProvider.getCharacter(this.currentUser,newChar);
       }else{
         player = {
           playerId: this.currentUser,
-          character : characterKey
+          character : this.oldCharNewGame(characterKey)
       }
     }
     let players= this.db.list('games/'+this.currentGame+'/players')
@@ -209,6 +228,17 @@ export class AF {
     return this.db.list('games/'+this.currentGame+'/messages')
   }
 
+  setNotes(){
+    this.notes =this.db.list('games/'+this.currentGame+'/notes')
+  }
+
+  sendNote(text){
+    let note ={
+      text:text
+    }
+    this.notes.push(note)
+  }
+
   sendMessage(text) {
     var message = {
       text: text,
@@ -217,6 +247,37 @@ export class AF {
       time:  new Date().toLocaleString()
     };
     this.messages.push(message);
+  }
+
+  isGameMaster(){
+    return this.isGM;
+  }
+
+  setGM(){
+    this.isGM = true;
+  }
+
+ createCharacterSubscriber(charKey:string,uid:string){
+    return this.db.object('users/'+uid+'characers/'+charKey).subscribe(element =>{
+      this.selectedCharacter = { 
+                  key: charKey,
+                  stats: element.stats,
+                  perception: element.perception,
+                  health: element.health,
+                  movement: element.movement,
+                  weapons: element.weapons,
+                  generals: element.generals,
+                  subtrefuge: element.subtrefuge,
+                  magic: element.magic,
+                  defense: element.defense,
+                  name: element.name
+            }
+        })
+  }
+
+  oldCharNewGame(charKey:string){
+    let char = this.userProvider.getCharacter(this.currentUser,charKey)
+    return this.saveCharacter("",char.stats,char.perception,char.health,char.movement,char.weapons,char.generals,char.subtrefuge,char.magic,char.defense,'',char.armourType)
   }
 
 

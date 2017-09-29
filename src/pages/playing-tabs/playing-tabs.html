@@ -1,16 +1,15 @@
 
 <ion-header>
   <ion-navbar>
-    <button role="img" ion-button col-2 menuToggle (click)="openMenu()">
-      <ion-icon col-7 class=""> <img [src]="menuIcon"> </ion-icon>
-    </button>
+      <ion-icon col-2  menuToggle item-start class="m-0 p-0"> <img [src]="menuIcon"> </ion-icon>
     <ion-title>Playing Board</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 <ion-tabs >
-    <ion-tab [root]="charSheetRoot" tabTitle="Character" tabIcon="walk"></ion-tab>
+    <ion-tab *ngIf="!isGM()" [root]="charSheetRoot" tabTitle="Character" tabIcon="walk"></ion-tab>
+    <ion-tab *ngIf="isGM()" [root]="notesRoot" tabTitle="Notes" tabIcon="paper"></ion-tab>
     <ion-tab [root]="tableRoot" tabTitle="Table" tabIcon="bonfire"></ion-tab>
     <ion-tab [root]="chatRoot" tabTitle="Chat" tabIcon="beer"></ion-tab>
 </ion-tabs>

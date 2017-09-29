@@ -1,10 +1,11 @@
 
-<ion-content padding class="content-stable"  on-swipe-right="hideTime = false">
  <ion-item no-lines offset-3 *ngIf="!gameIsLoaded()">
-    <h2>No Game Loaded</h2>
-  </ion-item>
-
-      <ion-list *ngFor="let message of messages | async" [ngClass]="{other: message.user != currentUser}" class="messages">
+   <h2>No Game Loaded</h2>
+ </ion-item>
+  
+  
+<ion-content padding class="content-stable" #content on-swipe-right="hideTime = false"  *ngIf="gameIsLoaded()">
+ <ion-list *ngFor="let message of messages | async" [ngClass]="{other: (message.user != currentUser)}" class="messages">
 
         <div class="message" [ngClass]="{'slide-right': hideTime, '': !hideTime}">
           <span>
@@ -14,7 +15,7 @@
 
         <div class="time" [ngClass]="{'slide-right': hideTime, '': !hideTime}">{{parseDate(message.time)}}</div>
 
-      </ion-list>
+ </ion-list>
       <ion-input type="text" class="chat-input" placeholder="Write your message here..." (keydown.enter)="sendMessage()" [(ngModel)]="messageToSend" ></ion-input>
       
       <button ion-item class="btn-chat" (click)="sendMessage()">Send</button>
