@@ -2,13 +2,6 @@ import { Component } from '@angular/core';
 import { AF } from './../../providers/af'
 
 
-/**
- * Generated class for the CritsAndDmgPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 export interface DMG_TABLE {
   roll:string,
   PL:string,
@@ -21,6 +14,13 @@ export interface DMG_TABLE {
 export interface CRIT_TABLE{
   roll:string,
   result:string
+}
+export interface MODIFICAITIONS{
+  minus20:string,
+  minus10:string,
+  zero:string,
+  plus10:string,
+  plus20:string
 }
 
 @Component({
@@ -35,13 +35,19 @@ export class CritsAndDmgPage {
 
   public menuIcon: string = this.af.menuIcon ;
 
-  public currentDmgTable :DMG_TABLE[];
+  public currentDmgTable : DMG_TABLE[];
 
   public currentCritTable : CRIT_TABLE[];
+
+  public currentFailTable : CRIT_TABLE[];
 
   public selectedDamageTable=''
 
   public selectedCritTable=''
+
+  public selectedFailTable=''
+  
+  public failModdifiers:MODIFICAITIONS
   
   public dmgTablesList = [{tableName:'One Handed Slash'},
                           {tableName:'One Handed Blunt'},
@@ -95,7 +101,7 @@ export class CritsAndDmgPage {
                             {roll:'141-145',PL:'12D',CH:'17D',HL:'21E',SL:'24E',NA:'28E'},
                             {roll:'146-150',PL:'12E',CH:'18E',HL:'22E',SL:'25E',NA:'30E'}]
   }
-  showOneHandBluntTble(){
+  showOneHandBluntTable(){
     this.currentDmgTable = [{roll:'  01-08',PL:'Fail',CH:'Fail',HL:'Fail',SL:'Fail',NA:'Fail'},
                             {roll:'  09-35',PL:'0',CH:'0',HL:'0',SL:'0',NA:'0'},
                             {roll:'  36-40',PL:'1',CH:'0',HL:'0',SL:'0',NA:'0'},
@@ -237,7 +243,7 @@ export class CritsAndDmgPage {
   }
 
   showChrushCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Weak grip. No extra damage (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Weak grip. No extra damage (+0)'},
                              {roll:'06 - 20',result:'Minor fracture of ribs +5 hits, -5 to activity'},
                              {roll:'21 - 35',result:'Blow to side +4 hits, -40 to ctivity for 1 round'},
                              {roll:'36 - 50',result:'Blow to forearm +5 hits, stunned 1 round'},
@@ -259,7 +265,7 @@ export class CritsAndDmgPage {
   ]
   }
   showSlashCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Weak strike. No extra damage (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Weak strike. No extra damage (+0)'},
                              {roll:'06 - 20',result:'Minor calf wound, 1 hit per round'},
                              {roll:'21 - 35',result:'Blow to upper leg +5 hits. If no leg armor +2 hits per round'},
                              {roll:'36 - 50',result:'Minor chest wound +3 hits, 1 hits per round and -5 to activity'},
@@ -281,7 +287,7 @@ export class CritsAndDmgPage {
   ]
   }
   showPunctureCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Glancing blow. No extra damagee (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Glancing blow. No extra damagee (+0)'},
                              {roll:'06 - 20',result:'Glancing blow to side +3 hits'},
                              {roll:'21 - 35',result:'Thigh trike +3 hits. If no leg aror: 3 hits per rund '},
                              {roll:'36 - 50',result:'Minor forearm wound +2 hits, stunned 1 round'},
@@ -303,7 +309,7 @@ export class CritsAndDmgPage {
   ]
   }
   showUnbalancingCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Faily weak (+0). Zip'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Faily weak (+0). Zip'},
                              {roll:'06 - 20',result:'Arm strike +2 hits, -5 to activity for 2 rounds'},
                              {roll:'21 - 35',result:'Leg strike +4 hits if no leg armor: +7 hit and stunned 1 round '},
                              {roll:'36 - 50',result:'Chest strike. Knocked back 3 feet +5 hits, -10 to activity for 2 rounds'},
@@ -326,7 +332,7 @@ export class CritsAndDmgPage {
   }
 
   showGrapplingCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'An oportunity lost'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'An oportunity lost'},
                              {roll:'06 - 20',result:'Passing strike +2 hits'},
                              {roll:'21 - 35',result:'Attack fended off +3 hits. If arm armor: stunned 1 round'},
                              {roll:'36 - 50',result:'Attack to upper leg. Spun abaout, but breaks loose. Stunned 1 round'},
@@ -349,7 +355,7 @@ export class CritsAndDmgPage {
   }
 
   showPhysForLargeCreaturesCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'+10 your weapon breaks in half. You are upset'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'+10 your weapon breaks in half. You are upset'},
                              {roll:'06 - 20',result:'+6 hits'},
                              {roll:'21 - 35',result:'+12 hits'},
                              {roll:'36 - 50',result:'+18 hits'},
@@ -372,7 +378,7 @@ export class CritsAndDmgPage {
   }
 
   showSpellForLargeCreaturesCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Size of creature awes you. (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Size of creature awes you. (+0)'},
                              {roll:'06 - 20',result:'+5 hits'},
                              {roll:'21 - 35',result:'+8 hits'},
                              {roll:'36 - 50',result:'+10 hits'},
@@ -395,7 +401,7 @@ export class CritsAndDmgPage {
   }
 
   showHeatCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Hot air (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Hot air (+0)'},
                              {roll:'06 - 20',result:'Strong heat, little effect +3 hits'},
                              {roll:'21 - 35',result:'Minor burn +8 hits and 1 hit per round'},
                              {roll:'36 - 50',result:'Blinded by hot smoke +12 hits and stunned 1 round'},
@@ -418,7 +424,7 @@ export class CritsAndDmgPage {
   }
 
   showColdCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Cold breeze (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Cold breeze (+0)'},
                              {roll:'06 - 20',result:'Cold blast +3 hits. If no clock or armor: stunned 1 round'},
                              {roll:'21 - 35',result:'Frosty "burn" +7 hits. 1 hit per round '},
                              {roll:'36 - 50',result:'Mild frostbite, +5 hits. 2 hits per round and -10 to activity'},
@@ -441,26 +447,145 @@ export class CritsAndDmgPage {
   }
 
   showElectricityCritTable(){
-    this.currentCritTable = [{roll:'-45- 05',result:'Hair stands up (+0)'},
+    this.currentCritTable = [{roll:'-45 - 05',result:'Hair stands up (+0)'},
                              {roll:'06 - 20',result:'Light charge, +3 hits. If metal armor: stunned 1 round'},
                              {roll:'21 - 35',result:'Explosion of ligth. Stunned 1 round '},
                              {roll:'36 - 50',result:'Medium charge, +6 hits and -5 to activity. If metal armor: stuned 2 rounds'},
                              {roll:'51 - 65',result:'Heavy charge, +9 hits. -5 to activity, stunned 1 round. If metal armor: stunned 3 rounds'},
                              {roll:'66 - 79',result:'Strike to shield arm, +12 hits and -12 to activity. If metal armor and o shield: knocked out for 1 day'},
                              {roll:'80',result:'Strike to side devastates nervous system. Sever shock results. Victim is a living vegetable 1 month'},
-                             {roll:'81 - 86',result:'Strike t weapon arm. Muscle and cartilage mangled. Arm usesless. 2 hits per round and stunned 6 rounds'},
-                             {roll:'87 - 89',result:'Permeated by electricity. Entire nervous system rearrengd. Drops and lies in shock for 12 rounds before dying '},
-                             {roll:'90',result:'Head strike. If leather heal: it is destroyed anda a 2 wek coma results. If not: dies instantly as brain if fried'},
-                             {roll:'91 - 96',result:'Thigh iced. Broken bone and frostbite. 5 hits per round, -30 to activity and stunned for 4 rounds'},
-                             {roll:'97 - 99',result:'Side strike freezes and shatters pelvis. Dies in 12 rounds due to shock and nerve damage'},
-                             {roll:'100',result:'Head strike. Eye are frozen. A 3 week coma results. Paralyzed from the neck down'},
-                             {roll:'101-106',result:'Blast freezes both hands. Loss us of both arms for 1 hor. 6 hits per round. Stunned for 5 round'},
-                             {roll:'107-109',result:'Heart and lungs suddenly frozn. Dies in 6 inactive rounds of shock and soffocation'},
-                             {roll:'110',result:'Massive strike shatters chest and freezes precious bodily fluids. Dies in 3 rounds'},
-                             {roll:'111-116 ',result:'Icy blast to upper chest. Knocked down and out. If no chest armor: dies in 10 rounds due to a cold, cold heart'},
-                             {roll:'117-119',result:'Frozen into a lifeless statue. Well preserved, but quite dead'},
-                             {roll:'120',result:'Frozen solid, then shatters nto thousads of pieces after being slammed into the ground'}
+                             {roll:'81 - 86',result:'Strike to weapon arm. Muscle and cartilage mangled. Arm usesless. 2 hits per round and stunned 6 rounds'},
+                             {roll:'87 - 89',result:'Permeated by electricity. Entire nervous system rearrenged. Drops and lies in shock for 12 rounds before dying '},
+                             {roll:'90',result:'Head strike. If leather helm: it is destroyed anda a 2 wek coma results. If not: dies instantly as brain if fried'},
+                             {roll:'91 - 96',result:'Chest strike. If metal armor: it becomes fused and immobile. If not: knocked out for 6 hours'},
+                             {roll:'97 - 99',result:'Electrifying experience. Brain falls victim to massive shock and surface burns. Passes out and dies in 6 rounds'},
+                             {roll:'100',result:'Nervous system acts as a superconductor. Sad instant death providers all witnesseswith a fine ligth show'},
+                             {roll:'101-106',result:'Strike to face. Loses nose. Stunned 8 rounds. Blinded for 2 weeks. If no helm: knocked down as well'},
+                             {roll:'107-109',result:'Chest strike destroys heart and lungs. If metal chest armor: it is fused, and dies in 6 rounds. If not: dies instantly'},
+                             {roll:'110',result:'Head is no longer available for use. Smokeand ozone surround the lifeless body'},
+                             {roll:'111-116 ',result:'Abdomen strike. Stunned 7 rounds. 6 hit per round. If no armor over abdomen: dies of shock and bleeding in 12 rounds'},
+                             {roll:'117-119',result:'Chest strike destoys both lung. Cut in half. Charge extends 10 feet giving an "A" critical to anyoe in the way'},
+                             {roll:'120',result:'Charge disrupts cell structure. Entire body turned to dust'}
   ]
+  }
+
+  showImpactCritTable(){
+    this.currentCritTable = [{roll:'-45 - 05',result:'Not even a scratch(+0)'},
+                             {roll:'06 - 20',result:'Grazing shot, +5 hits'},
+                             {roll:'21 - 35',result:'Staggered by strike to side, +10 hits. Stunned 1 round '},
+                             {roll:'36 - 50',result:'Strike to shoulder. Spun about. Reel backwards 10 feet. +12 hits no armor: stunned 2 rounds'},
+                             {roll:'51 - 65',result:'Strike to leg, knocked down. +8 hits. If no leg armor: stunned 2 rounds'},
+                             {roll:'66 - 79',result:'Blast to shield arm, +12 hits. Shield useless. If no shield: knocked out for 1 day'},
+                             {roll:'80',result:'Strike to head, +12 hits. Helm is shattered. Knocked down and out for 1 day. If no helm: skull fractured, dies in 3 rounds'},
+                             {roll:'81 - 86',result:'Blow to upper leg. Muscles torn, +15 hits and -10 to activity. If no leg armor: -20 to activity and stunned 3 rounds'},
+                             {roll:'87 - 89',result:'Blast to collar area, +12 hits. Stunned  rounds. Cannot speak for 1 week. If no neck armor: voice loss is permanent'},
+                             {roll:'90',result:'Strike to neck. Paralyzed from the shoulder down, +20 hits. A melancholy mood descends on victim'},
+                             {roll:'91 - 96',result:'Blow to knee. Knee dislocated. Cartilage and tendons ripped, +15 hits. -50 to activity and stunned 9 rounds'},
+                             {roll:'97 - 99',result:'Strike abdomen, +18 hits and stunned 12 rounds. If no abdomen armor: dies in 6 rounds due to destroyed organs'},
+                             {roll:'100',result:'Blast to head fracturs skull. A 3 week coma results. If no helm: dies immediately'},
+                             {roll:'101-106',result:'Blow to jaw. Jaw broken. Cannot speak or eat solid food until healed. +15 hits, -10 to activity and stunned 7 rounds'},
+                             {roll:'107-109',result:'Blow to side. Bone is driven into kidneys, dies in 6 runds'},
+                             {roll:'110',result:'Disrupt chest.Lungs and heart explode from impact. Dies instantly. Very messy '},
+                             {roll:'111-116 ',result:'Spun by blow. Knocked down. Breaks both arms. -60 to activity stunned 3 rounds'},
+                             {roll:'117-119',result:'Blast shatters skull in thousands of particles. Dies instantly. Direct hit, fine punch'},
+                             {roll:'120',result:'Blast annihilates entire skeleton. Reduced to gelatinous pulp. Try a spatula'}
+  ]
+  }
+
+  showHandWeaponsFailTable(){
+    this.currentFailTable = [{roll:'-45 - 05',result:'Lose your grip. No further activity this round'},
+                             {roll:'06 - 20',result:'You slip. If weapon is 1-handed and non-magic, it breaks'},
+                             {roll:'21 - 35',result:'Bad follow-through. You lost your opportunity, give yourself 2 hits'},
+                             {roll:'36 - 50',result:'Drop your weapon. It will tak 1 round to draw a new one, or 2 rounds to recover old one'},
+                             {roll:'51 - 65',result:'You lose your "wind" and realize that you should try to relax, -40 to activity for 2 rounds '},
+                             {roll:'66 - 79',result:'You stumble. The classless display leaves you stunned for 2 rounds. With luck, you might still survive'},
+                             {roll:'80',result:'Incredibly inept move. Roll a "B" crush crit on yourself. If opponent is using slash weapon, your weapon is broken'},
+                             {roll:'81 - 86',result:'Bite and swallow tongu in the excitement. Stunned 2 rounds'},
+                             {roll:'87 - 89',result:'Lose your grip on your weapon and realitty. Stunned 3 rounds'},
+                             {roll:'90',result:'Bad taste and poor execution. You attempt to maim yourselfe as your weapon breaks. Roll a "C" slash criton yourself'},
+                             {roll:'91 - 96',result:'Unbelivable mishandling of your weapon. Any friendly combatant in your vicinity takes a "B" crush critical'},
+                             {roll:'97 - 99',result:'Stumble over a unseen imaginary deceased turtle. You are very confused. Stunned 3 rounds'},
+                             {roll:'100',result:'Worstmove seen in ages, -60 to activity from a pulled groin. Foe ins stunned 2 rounds laughing'},
+                             {roll:'101-106',result:'You stagger and fall in an apparent attempt to commit suicide. Stunned 3 rounds. If using a pole arm, its shaft is shattered'},
+                             {roll:'107-109',result:'You break your weapon through ineptness. Stunned 4 rounds'},
+                             {roll:'110',result:'You stumble and drive the point of your weapon into the ground. Stunned 5 rounds. If mounted: you pole vault 30 feet and take a "C" crush crit from the landing'},
+                             {roll:'111-116 ',result:'Your mount rear suddently, stunned 3 rounds recovering'},
+                             {roll:'117-119',result:'You do not coordinate your movement with your mount. -90 to activity for 3 rounds trying to stay mounted'},
+                             {roll:'120',result:'You fall off your mount. Roll a "D" crush crit on yourself'}
+  ]
+  this.failModdifiers={minus20:'1-H Concussion', minus10:'1-H Slashing', zero:'2-Handed', plus10:'Pole Arms', plus20:'Mounted'}
+  }
+
+  showMissileWeaponsFailTable(){
+    this.currentFailTable = [{roll:'-45 - 05',result:'Lose your grip. No further activity this round'},
+                             {roll:'06 - 20',result:"One's ten thumbs cannot handle loading. Lose this round"},
+                             {roll:'21 - 35',result:'Fumble ammunitoins. Lose this round. -50 to activity next round'},
+                             {roll:'36 - 50',result:'Break ammunition and lose your cool You found yourself at -30 to activity for 3 rounds'},
+                             {roll:'51 - 65',result:'Drop ammunition. Stunned this round and next trying to decide wheter to retrive it'},
+                             {roll:'66 - 79',result:'You really mishandle your weapon. Stunned 2 rounds'},
+                             {roll:'80',result:'Poor judgment. +5 hits to yourself. If no using a crossbow, you let arrow fly, lose an ear and take 2 hits per round'},
+                             {roll:'81 - 86',result:'Bowstring breaks. It will take 2 rounds to draw a new weapon or 6 rounds to restring bow'},
+                             {roll:'87 - 89',result:'Fumble ammunition when loading. You scatter all of your ammunition over a 10 foot radius area'},
+                             {roll:'90',result:'Wepon shatters. You are stunned for 4 rounds. Good luck, pal'},
+                             {roll:'91 - 96',result:'You let your arrow fly too much soon. You strike 20 feet shot of trget. You are at -30 to activity for 3 rounds'},
+                             {roll:'97 - 99',result:'You seem to think that your bow is a baton. It slips and in trying to recover it, you knock it 5 feet in front of you'},
+                             {roll:'100',result:'Your ammunition slips as you fire. The missile goes through your hand. Hand useless, 8 hits to yourself and 2 hits per round'},
+                             {roll:'101-106',result:'Slip and fall down. Your shot goes astray. Stunned 5 rounds'},
+                             {roll:'107-109',result:'Fletching on missile scratches eye as it is released. 5 hits to yourself, -20 to activity and stunned 2 rounds'},
+                             {roll:'110',result:'Tip ofweapon catches closest object and breaks off. If applicabl, object take an "A" puncture crit'},
+                             {roll:'111-116 ',result:'Trigger slips hile you are bringing up your weapon. Make an attack with no modifications to closest combatant'},
+                             {roll:'117-119',result:'While dydrwaming you put your hand in front of the bolt while firering. Lose a finger, 4 hits to yourself and 2 hits per round'},
+                             {roll:'120',result:'You slip and pin your foot to the ground with a bolt. 10 hits to yourself, 2 hits per round, -30 to activity and stunned 3 rounds'}
+  ]
+  this.failModdifiers={minus20:'Sling', minus10:'Short Bow', zero:'Composite Bow', plus10:'Long Bow', plus20:'Crossbow'}
+  }
+
+  showSpellFailTable(){
+    this.currentFailTable = [{roll:'-45 - 05',result:'Lose concentration due to strain. Spell Lost, but no power points'},
+                             {roll:'06 - 20',result:"Second thoughts. No spell may be cast or prepared next round"},
+                             {roll:'21 - 35',result:'Indecision due to mild mental lapse. Spell delayed one round'},
+                             {roll:'36 - 50',result:'Serious mental lapse. Spell lost, but not power point. -30 to activity for 3 rounds'},
+                             {roll:'51 - 65',result:'Moderate but serious, strain. Spell lost along with power points. Stunned 1 round'},
+                             {roll:'66 - 79',result:'Subconscious fear. Spell lost along with power points. Stunned 2 rounds'},
+                             {roll:'80',result:'Spell internalized, 15 hits to yourself. Knocked down and stunned 1 hour'},
+                             {roll:'81 - 86',result:'Serious strain. Spell lost, but no power points. Stunned 3 rounds'},
+                             {roll:'87 - 89',result:'Interlanization; overloaded sense, 20hits to yourself. Blinded and deaf for 10 minutes'},
+                             {roll:'90',result:'Strain causes ild stroke. 20 hits to yourself. Knocked out for 12 hours.'},
+                             {roll:'91 - 96',result:'Severe strain cases misfire, 5 hits to yourself and stunned 3 rounds'},
+                             {roll:'97 - 99',result:"Target's essence causes spell to backfire. Reverse roles of target and caster in spell effects"},
+                             {roll:'100',result:'Identity crisis. Lose spell casting capabilities for 2 weeks.'},
+                             {roll:'101-106',result:'Extreme mental pressure causes misfire. Knocked down, 10 hits to yourself and stunned 6 rounds'},
+                             {roll:'107-109',result:'Internalized spell. Lose all spell casting ability for 3 weeks. 25 hits to yourself and unconscious for 3 hours'},
+                             {roll:'110',result:'Strain causes evere stroke. Paralyzed from the waist down'},
+                             {roll:'111-116 ',result:'Spell strays and travels to  apoint 20 feet right of the tarjet. Anyone in line take an unmodified attack. Stunned 3 rounds'},
+                             {roll:'117-119',result:'Spell strays and travels to  apoint 20 feet left of the tarjet. Anyone in line take an unmodified attack. Stunned 3 rounds'},
+                             {roll:'120',result:'Mental collapse. Spell is cast in derection opposite to the intended line. Lose all spell casting ability for 3 months'}
+  ]
+  this.failModdifiers={minus20:'Class "I" Spells', minus10:'Class "U" Spells', zero:'Class "P" Spells', plus10:'Class "F" Spells', plus20:'Class "E" Spells'}
+  }
+
+  showMovingManeuverFailTable(){
+    this.currentFailTable = [{roll:'-45 - 05',result:'You hsitate and fail to act'},
+                             {roll:'06 - 20',result:"You have secont thoughts, and deide to wait one round"},
+                             {roll:'21 - 35',result:'You slip. 30% chance of falling. -20 from any maneuvers for 2 rounds'},
+                             {roll:'36 - 50',result:'You stumble. 45% chanco of falling. -30 from any maneuvers for 2 runds'},
+                             {roll:'51 - 65',result:'You stub your toe. 60% chanceof falling. 3 hits to yourself and -10 to activity'},
+                             {roll:'66 - 79',result:'You slip. 75% chanco of falling. Stunned 2 rounds'},
+                             {roll:'80',result:'You twist your ankle. 5 hits to yourself and -10 to activity'},
+                             {roll:'81 - 86',result:'You fall down. 3 hits to yourself, -20 to activity for 3 rounds'},
+                             {roll:'87 - 89',result:'You sprain your ankle and tear some tendons. 7 hits to yourself, -20 to activity ad stunned 1 round'},
+                             {roll:'90',result:'Fall breaks your leg. 8 hits to yourself, -30 to activity and stunned 3 rounds'},
+                             {roll:'91 - 96',result:'You break your wrist when you fall. 12 hits to yourself, -20 to activity and stunned 2 rounds'},
+                             {roll:'97 - 99',result:"Your arm breks when you land on it. 14 hits to yourself, -30 to activity and stunned 4 rounds"},
+                             {roll:'100',result:'In an attempt to break your fall you break both of our arms; they are useless. 30 hits to yourself and stuned 6 rounds'},
+                             {roll:'101-106',result:'When you fall your leg twists under you and breaks. 15 hits to yourself, -50 to activity and stunned 3 rounds'},
+                             {roll:'107-109',result:'Your knee strikes a hard object and shatters as you fall. 10 hits to yourself, -80 to activity and stunned 4 rounds'},
+                             {roll:'110',result:'You fall and the resulting concussion causes a year-long coma.'},
+                             {roll:'111-116 ',result:'You fall and land on your lower spine. Yu are paralyzed from the wais down. 30 hits to yourself'},
+                             {roll:'117-119',result:'You fall and are paralyzed from the neck down. 20 hits to yourself'},
+                             {roll:'120',result:'Your fall turns into a dive. You crush your skull and die'}
+  ]
+  this.failModdifiers={minus20:'Easy', minus10:'Medium', zero:'Hard', plus10:'Extra Hard', plus20:'Absurd'}
   }
 
   dmgTableIsLoaded(){
@@ -471,6 +596,9 @@ export class CritsAndDmgPage {
     return (this.currentCritTable!= undefined )
   }
 
+  failTableIsLoaded(){
+    return (this.currentFailTable!=undefined)
+  }
 
   loadDmgTable(){
     switch (this.selectedDamageTable) {
@@ -478,7 +606,7 @@ export class CritsAndDmgPage {
         this.showOneHandSlashTable();
         break;
       case 'One Handed Blunt':
-        this.showOneHandBluntTble();
+        this.showOneHandBluntTable();
         break;
       case 'Two Handed':
         this.showTwoHandedTable();
@@ -497,5 +625,67 @@ export class CritsAndDmgPage {
         break;
     }
   }
+
+  loadCritTable(){
+    switch (this.selectedCritTable) {
+      case 'Crush Critical':
+        this.showChrushCritTable();
+        break;
+      case 'Slash Critical':
+        this.showSlashCritTable();
+        break;
+      case 'Puncture Critical':
+        this.showPunctureCritTable();
+        break;
+      case 'Unbalance Critical':
+        this.showUnbalancingCritTable();
+        break;
+      case 'Grapling Critical':
+        this.showGrapplingCritTable();
+        break;
+      case 'Physic Critical to Large Creatures ':
+        this.showPhysForLargeCreaturesCritTable();
+        break;
+      case 'Spell Critical to Large Creatures ':
+        this.showSpellForLargeCreaturesCritTable();
+        break;
+      case 'Heat Critical ':
+        this.showHeatCritTable();
+        break;
+      case 'Cold Critical':
+        this.showColdCritTable();
+        break;
+      case 'Electricity Critical':
+        this.showElectricityCritTable();
+        break;
+      case 'Impact Critical':
+        this.showImpactCritTable();
+        break;
+      default:
+      console.log('Invallid Table')
+        break;
+    }
+  }
+
+  loadFailTable(){
+    switch (this.selectedFailTable) {
+      case 'Hand Weapons Fail':
+        this.showHandWeaponsFailTable();
+        break;
+      case 'Projectile Fail':
+        this.showMissileWeaponsFailTable();
+        break;
+      case 'Spell Fail':
+        this.showSpellFailTable();
+        break;
+      case 'Movement and Maneuver Fail':
+        this.showMovingManeuverFailTable();
+        break;
+      default:
+      console.log('Invallid Table')
+        break;
+    }
+  }
+
 
 }

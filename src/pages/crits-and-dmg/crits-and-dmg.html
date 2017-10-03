@@ -12,11 +12,25 @@
   <ion-item>
     <ion-label>Damage Table : </ion-label>
     <ion-select popover (ionChange)='loadDmgTable()' [(ngModel)]="selectedDamageTable">
-      <ion-option *ngFor='let option of dmgTablesList' [value]="option.tableName"> {{option.tableName}} </ion-option>
+      <ion-option *ngFor='let DGMoption of dmgTablesList' [value]="DGMoption.tableName"> {{DGMoption.tableName}} </ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Critical Table : </ion-label>
+    <ion-select popover (ionChange)='loadCritTable()' [(ngModel)]="selectedCritTable">
+      <ion-option *ngFor='let CRIToption of critList' [value]="CRIToption.tableName"> {{CRIToption.tableName}} </ion-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Fail Table : </ion-label>
+    <ion-select popover (ionChange)='loadFailTable()' [(ngModel)]="selectedFailTable">
+      <ion-option *ngFor='let FAILoption of failList' [value]="FAILoption.tableName"> {{FAILoption.tableName}} </ion-option>
     </ion-select>
   </ion-item>
 
     <ion-item  class ="p-0 m-0" *ngIf='dmgTableIsLoaded()'>
+        <br>
+      <h1>Damage Table</h1>
       <ion-grid  >
         <ion-row justify-content-around> 
           <ion-col  col-2>
@@ -38,31 +52,77 @@
             NA
           </ion-col>
         </ion-row>
-        <ion-row justify-content-around *ngFor='let row of currentDmgTable'>
+        <ion-row justify-content-around *ngFor='let DMGrow of currentDmgTable'>
           <ion-col col-2>
-            {{row.roll}}
+            {{DMGrow.roll}}
           </ion-col>
           <ion-col col-1>
-            {{row.PL}}
+            {{DMGrow.PL}}
           </ion-col>
           <ion-col col-1>
-            {{row.CH}}
+            {{DMGrow.CH}}
           </ion-col>
           <ion-col col-1>
-            {{row.HL}}
+            {{DMGrow.HL}}
           </ion-col>
           <ion-col col-1>
-            {{row.SL}}
+            {{DMGrow.SL}}
           </ion-col>
           <ion-col col-1>
-            {{row.NA}}
+            {{DMGrow.NA}}
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-item>
 
     <ion-item  class ="p-0 m-0" *ngIf='critTableIsLoaded()'>
-
+    <br>
+        <h1>Critical Table</h1>
+      <ion-grid>
+        <ion-row justify-content-around>
+          <ion-col  col-2>
+            Roll
+          </ion-col>
+          <ion-col col-8 text-center >
+            Effect
+          </ion-col>
+        </ion-row>
+        <ion-row class="crit" justify-content-around *ngFor='let CRITrow of currentCritTable'>
+          <ion-col col-3>
+            {{CRITrow.roll}}
+          </ion-col>
+          <ion-col col-8 >
+           <p>
+              {{CRITrow.result}}
+          </p> 
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
+
+    <ion-item  class ="p-0 m-0" *ngIf='failTableIsLoaded()'>
+        <br>  
+      <h1>Fail Table</h1>
+        <ion-grid>
+          <ion-row justify-content-around>
+            <ion-col  col-2>
+              Roll
+            </ion-col>
+            <ion-col col-8 text-center>
+              Effect
+            </ion-col>
+          </ion-row>
+          <ion-row class="crit" justify-content-around *ngFor='let FAILrow of currentFailTable'>
+            <ion-col col-3>
+              {{FAILrow.roll}}
+            </ion-col>
+            <ion-col col-8 >
+             <p>
+                {{FAILrow.result}}
+            </p> 
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
   
 </ion-content>
