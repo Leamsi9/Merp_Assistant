@@ -70,7 +70,7 @@ export class CritsAndDmgPage {
 
   public failList=[{tableName:'Hand Weapons Fail'},
                    {tableName:'Projectile Fail'},
-                   {tableName:'Spell Fail '},
+                   {tableName:'Spell Fail'},
                    {tableName:'Movement and Maneuver Fail'}]
 
 
